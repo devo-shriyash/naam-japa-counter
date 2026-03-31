@@ -1,0 +1,24 @@
+{
+  "name": "नाम जप — राधा वल्लभ",
+  "short_name": "नाम जप",
+  "description": "Naam Japa counter for Radha Vallabh Shri Harivansh",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060401",
+  "theme_color": "#d97626",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

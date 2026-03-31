@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>नाम जप — राधा वल्लभ</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#d97626">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="नाम जप">
+  <link rel="apple-touch-icon" href="icon-192.png">
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -990,6 +996,15 @@ document.addEventListener('keydown', e => {
 function fmt(n) {
   if (!n) return '0';
   return Number(n).toLocaleString('en-IN');
+}
+
+// ════════════════════════════════════════════════════════════
+// SERVICE WORKER — PWA install support
+// ════════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
 }
 
 // ════════════════════════════════════════════════════════════
