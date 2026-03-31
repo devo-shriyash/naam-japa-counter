@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>नाम जप — राधा वल्लभ</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#d97626">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="नाम जप">
+  <link rel="apple-touch-icon" href="icon-192.png">
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -86,7 +92,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0;
       padding: 1.2rem 2rem 1.5rem;
       border-right: 1px solid var(--border);
       position: relative;
@@ -131,6 +136,7 @@
       color: var(--text-mid);
       white-space: nowrap;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation; /* FIX: eliminates 300ms click delay */
     }
     .name-tab.active {
       background: linear-gradient(135deg, var(--or), #b85e1a);
@@ -162,6 +168,8 @@
       flex-shrink: 0;
       z-index: 1;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation; /* FIX: eliminates 300ms click delay on Android */
+      will-change: transform;     /* FIX: GPU-composite the tap animation */
     }
     .ring-svg {
       width: 100%;
@@ -170,7 +178,6 @@
       display: block;
     }
     .ring-track { fill: none; stroke: var(--border); stroke-width: 0.8; }
-    /* Bead classes — set via setAttribute, no CSS transition for perf */
     .bead-unlit        { fill: var(--text-ghost); }
     .bead-lit          { fill: var(--or-bright); }
     .bead-sumeru-unlit { fill: var(--gold-dim); opacity: 0.45; }
@@ -203,7 +210,7 @@
       letter-spacing: 0.18em;
     }
 
-    /* Tap animation — class toggled by JS */
+    /* Tap animation */
     .ring-tapped { animation: ring-tap 0.15s ease; }
     @keyframes ring-tap {
       0%   { transform: scale(1); }
@@ -251,6 +258,7 @@
       cursor: pointer;
       transition: background 0.18s, color 0.18s, border-color 0.18s;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation; /* FIX: eliminates 300ms click delay */
     }
     .btn:hover { border-color: var(--or-dim); color: var(--text); background: var(--card); }
     .btn.primary {
@@ -291,6 +299,7 @@
       transition: color 0.18s, border-color 0.18s;
       font-family: 'Noto Sans Devanagari', sans-serif;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .period-tab.active { color: var(--or-bright); border-bottom-color: var(--or); }
 
@@ -358,6 +367,7 @@
       font-family: 'Noto Sans Devanagari', sans-serif;
       transition: color 0.15s, border-color 0.15s;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .btn-xs:hover { color: var(--text-dim); border-color: var(--border-hi); }
 
@@ -418,6 +428,7 @@
       z-index: 999;
       border: 2px solid var(--or);
       opacity: 0;
+      will-change: opacity;
     }
     .flash-on { animation: do-flash 0.65s ease-out forwards; }
     @keyframes do-flash {
@@ -439,7 +450,6 @@
         position: relative;
       }
 
-      /* Each panel takes up the full main area; only one shown at a time */
       .japa-panel, .log-panel {
         position: absolute;
         inset: 0;
@@ -448,7 +458,6 @@
         border-top: none;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        /* hidden by default on mobile */
         display: none !important;
       }
       .japa-panel {
@@ -459,11 +468,9 @@
       }
       .log-panel { width: 100%; }
 
-      /* Active class shows the panel */
       .japa-panel.mob-active { display: flex !important; }
       .log-panel.mob-active  { display: flex !important; }
 
-      /* Smaller ring */
       .ring-wrapper { width: 268px; height: 268px; }
 
       .name-display  { font-size: 1.75rem; margin-bottom: 0.65rem; min-height: auto; }
@@ -473,14 +480,12 @@
       .controls      { margin-top: 0.7rem; }
       .kbd-hint      { display: none; }
 
-      /* Log panel mobile */
       .log-panel { flex-direction: column; }
       .period-tab { font-size: 0.65rem; padding: 0.6rem 0.15rem; }
       .sc-malas   { font-size: 1.35rem; }
       .stats-section { padding: 0.7rem; }
       .stats-grid { gap: 0.4rem; }
 
-      /* Mobile bottom nav */
       .mobile-nav {
         display: flex;
         flex-shrink: 0;
@@ -502,6 +507,7 @@
         border-top: 2px solid transparent;
         transition: color 0.18s, border-color 0.18s;
         -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
       }
       .mob-btn.active { color: var(--or-bright); border-top-color: var(--or); }
       .mob-icon { font-size: 1.05rem; line-height: 1; }
@@ -522,50 +528,18 @@
         margin-bottom: clamp(0.9rem, 1.4vh, 1.5rem);
         min-height:    auto;
       }
-      .count-number {
-        font-size: clamp(3.6rem, 5.6vh, 6rem);
-      }
-      .count-denom {
-        font-size:  clamp(0.8rem, 1.2vh, 1.15rem);
-        margin-top: 0.3rem;
-      }
-      .tap-cue {
-        font-size:  clamp(0.58rem, 0.85vh, 0.82rem);
-        margin-top: clamp(0.7rem, 1.1vh, 1.1rem);
-      }
-      .name-tabs {
-        margin-bottom: clamp(1rem, 1.6vh, 1.7rem);
-      }
-      .name-tab {
-        font-size: clamp(0.88rem, 1.2vh, 1.1rem);
-        padding:   clamp(0.45rem, 0.7vh, 0.7rem) clamp(1.1rem, 1.6vh, 1.6rem);
-      }
-      .session-row {
-        gap:        clamp(1.6rem, 2.6vh, 3rem);
-        margin-top: clamp(1.1rem, 1.8vh, 2rem);
-      }
-      .s-val {
-        font-size: clamp(1.8rem, 2.8vh, 3.2rem);
-      }
-      .s-lbl {
-        font-size:  clamp(0.58rem, 0.85vh, 0.82rem);
-        margin-top: 0.3rem;
-      }
-      .s-sep {
-        height: clamp(2rem, 3vh, 3.2rem);
-      }
-      .controls {
-        gap:        clamp(0.55rem, 0.9vh, 0.9rem);
-        margin-top: clamp(0.95rem, 1.5vh, 1.7rem);
-      }
-      .btn {
-        font-size: clamp(0.73rem, 1.05vh, 1rem);
-        padding:   clamp(0.42rem, 0.65vh, 0.65rem) clamp(1.05rem, 1.6vh, 1.6rem);
-      }
-      .kbd-hint {
-        font-size:  clamp(0.56rem, 0.8vh, 0.78rem);
-        margin-top: clamp(0.6rem, 0.95vh, 1rem);
-      }
+      .count-number  { font-size: clamp(3.6rem, 5.6vh, 6rem); }
+      .count-denom   { font-size: clamp(0.8rem, 1.2vh, 1.15rem); margin-top: 0.3rem; }
+      .tap-cue       { font-size: clamp(0.58rem, 0.85vh, 0.82rem); margin-top: clamp(0.7rem, 1.1vh, 1.1rem); }
+      .name-tabs     { margin-bottom: clamp(1rem, 1.6vh, 1.7rem); }
+      .name-tab      { font-size: clamp(0.88rem, 1.2vh, 1.1rem); padding: clamp(0.45rem, 0.7vh, 0.7rem) clamp(1.1rem, 1.6vh, 1.6rem); }
+      .session-row   { gap: clamp(1.6rem, 2.6vh, 3rem); margin-top: clamp(1.1rem, 1.8vh, 2rem); }
+      .s-val         { font-size: clamp(1.8rem, 2.8vh, 3.2rem); }
+      .s-lbl         { font-size: clamp(0.58rem, 0.85vh, 0.82rem); margin-top: 0.3rem; }
+      .s-sep         { height: clamp(2rem, 3vh, 3.2rem); }
+      .controls      { gap: clamp(0.55rem, 0.9vh, 0.9rem); margin-top: clamp(0.95rem, 1.5vh, 1.7rem); }
+      .btn           { font-size: clamp(0.73rem, 1.05vh, 1rem); padding: clamp(0.42rem, 0.65vh, 0.65rem) clamp(1.05rem, 1.6vh, 1.6rem); }
+      .kbd-hint      { font-size: clamp(0.56rem, 0.8vh, 0.78rem); margin-top: clamp(0.6rem, 0.95vh, 1rem); }
     }
 
     * { scrollbar-width: thin; scrollbar-color: var(--border-hi) transparent; }
@@ -596,7 +570,7 @@
       </svg>
       <div class="ring-center">
         <div class="count-number" id="countNum">0</div>
-        <div class="count-denom">/ 108</div>
+        <div class="count-denom" id="countDenom">/ 108</div>
         <div class="tap-cue">◉ TAP</div>
       </div>
     </div>
@@ -624,7 +598,7 @@
       <button class="btn"         onclick="resetCurrent()">रीसेट</button>
     </div>
 
-    <div class="kbd-hint">Space — एक जप &nbsp;·&nbsp; S — सहेजें</div>
+    <div class="kbd-hint">Space — एक जप &nbsp;·&nbsp; S — सहेजें &nbsp;·&nbsp; Z — पिछला</div>
   </div>
 
   <!-- ══════════ LOG PANEL ══════════ -->
@@ -673,19 +647,35 @@ const NAMES = {
 };
 const MALA_SIZE = 108;
 const STORE_KEY = 'jpDailyV3';
+const BEAD_KEY  = 'jpBead';     // FIX: persists in-progress bead count
 const OLD_KEY   = 'japaEntries_v2';
 
 let activeName   = 'radha';
-let beadCount    = 0;       // 0–107, progress in current mala
+let beadCount    = 0;
 let activePeriod = 'today';
 
 // ════════════════════════════════════════════════════════════
-// STORAGE — Daily Aggregation
-// Shape: { 'YYYY-MM-DD': { radha:{count,malas}, harivansh:{count,malas} } }
-// One record per day per name — handles 50,000+ japa without bloat.
+// STORAGE — in-memory cache so each action = one localStorage read
+// FIX: was calling getLog() 2-3x per tap with no caching
 // ════════════════════════════════════════════════════════════
-function getLog()        { try { return JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch { return {}; } }
-function setLog(data)    { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+let _cache = null;
+
+function getLog() {
+  if (_cache) return _cache;
+  try { _cache = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); }
+  catch { _cache = {}; }
+  return _cache;
+}
+
+function setLog(data) {
+  _cache = data;
+  localStorage.setItem(STORE_KEY, JSON.stringify(data));
+}
+
+// FIX: persist beadCount so a page reload / browser kill mid-mala loses nothing
+function saveBead() {
+  localStorage.setItem(BEAD_KEY, beadCount);
+}
 
 function addJapa(name, count, malas) {
   const data = getLog();
@@ -706,8 +696,8 @@ function migrateV2() {
     const data    = getLog();
     for (const e of entries) {
       if (!e.date || !NAMES[e.name]) continue;
-      if (!data[e.date])       data[e.date]       = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
-      if (!data[e.date][e.name]) data[e.date][e.name] = {count:0,malas:0};
+      if (!data[e.date])         data[e.date]         = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
+      if (!data[e.date][e.name]) data[e.date][e.name] = { count:0, malas:0 };
       data[e.date][e.name].count += (e.count || 0);
       data[e.date][e.name].malas += (e.malas || 0);
     }
@@ -719,15 +709,16 @@ function migrateV2() {
 // ════════════════════════════════════════════════════════════
 // DATE HELPERS
 // ════════════════════════════════════════════════════════════
-function pad(n)     { return String(n).padStart(2,'0'); }
+function pad(n) { return String(n).padStart(2, '0'); }
+
 function todayStr() {
   const d = new Date();
   return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 }
 function weekStartStr() {
   const d   = new Date();
-  const dow = d.getDay();                       // 0=Sun
-  const off = (dow === 0) ? -6 : 1 - dow;      // shift to Monday
+  const dow = d.getDay();
+  const off = (dow === 0) ? -6 : 1 - dow;   // Monday-based week
   const m   = new Date(d.getFullYear(), d.getMonth(), d.getDate() + off);
   return `${m.getFullYear()}-${pad(m.getMonth()+1)}-${pad(m.getDate())}`;
 }
@@ -735,51 +726,42 @@ function monthStartStr() {
   const d = new Date();
   return `${d.getFullYear()}-${pad(d.getMonth()+1)}-01`;
 }
-function inPeriod(dateStr) {
-  if (activePeriod === 'all')   return true;
-  if (activePeriod === 'today') return dateStr === todayStr();
-  if (activePeriod === 'week')  return dateStr >= weekStartStr();
-  if (activePeriod === 'month') return dateStr >= monthStartStr();
-  return true;
-}
+
 function dateLabel(dateStr) {
-  const [y,m,d] = dateStr.split('-').map(Number);
-  const t       = todayStr();
-  if (dateStr === t) return 'आज';
-  const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
-  const yStr = `${yesterday.getFullYear()}-${pad(yesterday.getMonth()+1)}-${pad(yesterday.getDate())}`;
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const today     = todayStr();
+  if (dateStr === today) return 'आज';
+  const yy   = new Date();
+  yy.setDate(yy.getDate() - 1);
+  const yStr = `${yy.getFullYear()}-${pad(yy.getMonth()+1)}-${pad(yy.getDate())}`;
   if (dateStr === yStr) return 'कल';
-  const thisYear = new Date().getFullYear();
   return new Date(y, m-1, d).toLocaleDateString('hi-IN', {
     day: 'numeric', month: 'short',
-    ...(y !== thisYear && { year: 'numeric' })
+    ...(y !== new Date().getFullYear() && { year: 'numeric' })
   });
 }
 
 // ════════════════════════════════════════════════════════════
 // AGGREGATION
+// FIX: date bounds computed once outside loop, not per-iteration
 // ════════════════════════════════════════════════════════════
 function getStats() {
-  const data = getLog();
-  const r    = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
+  const data   = getLog();
+  const r      = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
+  const todayS = todayStr();
+  // Compute boundary string once — avoids new Date() per loop iteration
+  const boundS = activePeriod === 'week'  ? weekStartStr()
+               : activePeriod === 'month' ? monthStartStr()
+               : null;
+
   for (const [date, rec] of Object.entries(data)) {
-    if (!inPeriod(date)) continue;
-    for (const n of ['radha','harivansh']) {
+    if (activePeriod === 'today' && date !== todayS) continue;
+    if (boundS !== null && date < boundS) continue;
+    for (const n of ['radha', 'harivansh']) {
       if (rec[n]) { r[n].count += rec[n].count; r[n].malas += rec[n].malas; }
     }
   }
   return r;
-}
-function getTodayEntry(name) {
-  const rec = (getLog()[todayStr()] || {})[name];
-  return rec || { count:0, malas:0 };
-}
-function getAllMalas(name) {
-  let t = 0;
-  for (const rec of Object.values(getLog())) {
-    if (rec[name]) t += rec[name].malas;
-  }
-  return t;
 }
 
 // ════════════════════════════════════════════════════════════
@@ -794,9 +776,9 @@ function buildRing() {
 
   const R = 136, r = 3.4, rS = 5.2;
   for (let i = 0; i < MALA_SIZE; i++) {
-    const ang     = (i / MALA_SIZE) * 2 * Math.PI - Math.PI / 2;
-    const c       = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    const sumeru  = (i === 0);
+    const ang    = (i / MALA_SIZE) * 2 * Math.PI - Math.PI / 2;
+    const c      = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    const sumeru = (i === 0);
     c.setAttribute('cx', (R * Math.cos(ang)).toFixed(3));
     c.setAttribute('cy', (R * Math.sin(ang)).toFixed(3));
     c.setAttribute('r',  sumeru ? rS : r);
@@ -815,23 +797,34 @@ function refreshBeads() {
 }
 
 // ════════════════════════════════════════════════════════════
-// DISPLAY REFRESH — single entry point, no redundant calls
+// DISPLAY REFRESH — single getLog() call via cache
+// FIX: was calling getTodayEntry + getAllMalas each separately (2 parses)
 // ════════════════════════════════════════════════════════════
 function refreshDisplay() {
   document.getElementById('countNum').textContent = beadCount;
   refreshBeads();
-  const td  = getTodayEntry(activeName);
-  const aml = getAllMalas(activeName);
+
+  const data    = getLog();          // single cache hit
+  const today   = todayStr();
+  const td      = (data[today] || {})[activeName] || { count:0, malas:0 };
+  let   allMalas = 0;
+  for (const rec of Object.values(data)) {
+    if (rec[activeName]) allMalas += rec[activeName].malas;
+  }
+
   document.getElementById('todayMalas').textContent = fmt(td.malas);
   document.getElementById('todayCount').textContent = fmt(td.count + beadCount);
-  document.getElementById('allMalas').textContent   = fmt(aml);
+  document.getElementById('allMalas').textContent   = fmt(allMalas);
 }
 
 // ════════════════════════════════════════════════════════════
 // JAPA ACTIONS
+// FIX: renderStats() removed from hot path — only called on mala
+//      complete (when counts actually change in the stats grid)
 // ════════════════════════════════════════════════════════════
 function countJapa() {
   beadCount++;
+  saveBead();  // FIX: persist immediately — survives reload
 
   // Tap animation — remove, force reflow, re-add
   const rw = document.getElementById('ringWrapper');
@@ -842,25 +835,27 @@ function countJapa() {
   if (beadCount >= MALA_SIZE) {
     addJapa(activeName, MALA_SIZE, 1);
     beadCount = 0;
+    saveBead();
     doFlash();
-    renderLog();            // update log immediately
+    renderLog();
+    renderStats();  // stats grid only rebuilds on mala complete
   }
 
   refreshDisplay();
-  renderStats();
 }
 
 function undoCount() {
   if (beadCount <= 0) return;
   beadCount--;
+  saveBead();
   refreshDisplay();
-  renderStats();
 }
 
 function savePartial() {
   if (beadCount <= 0) return;
   addJapa(activeName, beadCount, 0);
   beadCount = 0;
+  saveBead();
   refreshDisplay();
   renderStats();
   renderLog();
@@ -869,8 +864,8 @@ function savePartial() {
 function resetCurrent() {
   if (beadCount > 0 && !confirm('वर्तमान जप गणना रीसेट करें?')) return;
   beadCount = 0;
+  saveBead();
   refreshDisplay();
-  renderStats();
 }
 
 function doFlash() {
@@ -888,6 +883,7 @@ function selectName(name) {
   if (beadCount > 0 && !confirm('नाम बदलने पर वर्तमान गणना रीसेट होगी। जारी रखें?')) return;
   activeName = name;
   beadCount  = 0;
+  saveBead();
   document.getElementById('nameDisplay').textContent = NAMES[name];
   document.querySelectorAll('.name-tab').forEach(t => t.classList.remove('active'));
   document.getElementById(`tab-${name}`).classList.add('active');
@@ -937,11 +933,10 @@ function renderStats() {
 
 // ════════════════════════════════════════════════════════════
 // LOG RENDER — Daily Grouped View
-// Max rows = days × names (≤2 per day). Scales to 50,000+ japa.
 // ════════════════════════════════════════════════════════════
 function renderLog() {
   const data  = getLog();
-  const dates = Object.keys(data).sort((a,b) => b.localeCompare(a));   // newest first
+  const dates = Object.keys(data).sort((a, b) => b.localeCompare(a));
   const list  = document.getElementById('logList');
 
   if (dates.length === 0) {
@@ -958,11 +953,10 @@ function renderLog() {
     const rec  = data[date];
     const rows = [];
 
-    for (const name of ['radha','harivansh']) {
+    for (const name of ['radha', 'harivansh']) {
       const nd = rec[name];
       if (!nd || (nd.count === 0 && nd.malas === 0)) continue;
 
-      // Extra japs beyond complete malas (partials)
       const extra     = nd.count - nd.malas * MALA_SIZE;
       const malaLabel = nd.malas > 0
         ? `${fmt(nd.malas)} माला${extra > 0 ? ' + ' + fmt(extra) + ' जप' : ''}`
@@ -994,6 +988,7 @@ function clearAll() {
   if (!confirm('सम्पूर्ण जप लॉग हटाएँ?\nयह क्रिया वापस नहीं होगी।')) return;
   setLog({});
   beadCount = 0;
+  saveBead();
   refreshDisplay();
   renderStats();
   renderLog();
@@ -1011,52 +1006,69 @@ function showMobileTab(tab) {
 }
 
 // ════════════════════════════════════════════════════════════
-// RESPONSIVE: detect mobile and manage panel visibility
+// RESPONSIVE
 // ════════════════════════════════════════════════════════════
 function applyLayout() {
   const mobile = window.innerWidth <= 768;
   const jp     = document.getElementById('japaPanel');
   const lp     = document.getElementById('logPanel');
-
   if (mobile) {
-    // On mobile: only one panel at a time via mob-active
-    // Default to japa on first load; preserve current tab if already mobile
     if (!jp.classList.contains('mob-active') && !lp.classList.contains('mob-active')) {
       jp.classList.add('mob-active');
       document.getElementById('mn-japa').classList.add('active');
     }
   } else {
-    // Desktop: remove mob-active from both — CSS shows them side-by-side
     jp.classList.remove('mob-active');
     lp.classList.remove('mob-active');
   }
 }
 
-window.addEventListener('resize', applyLayout);
+// FIX: debounced — was firing on every pixel of resize
+let _resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(_resizeTimer);
+  _resizeTimer = setTimeout(applyLayout, 150);
+});
 
 // ════════════════════════════════════════════════════════════
 // KEYBOARD SHORTCUTS
+// FIX: added Z for undo, updated kbd-hint in HTML
 // ════════════════════════════════════════════════════════════
 document.addEventListener('keydown', e => {
-  if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
-  // Allow space on buttons to count; block other shortcuts when button focused
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
   if (e.target.tagName === 'BUTTON' && e.code !== 'Space') return;
-  if (e.code === 'Space') { e.preventDefault(); countJapa(); }
-  if (e.key  === 's' || e.key === 'S') { e.preventDefault(); savePartial(); }
+  if (e.code === 'Space')                      { e.preventDefault(); countJapa(); }
+  if (e.key === 's' || e.key === 'S')          { e.preventDefault(); savePartial(); }
+  if (e.key === 'z' || e.key === 'Z')          { e.preventDefault(); undoCount(); }
 });
 
 // ════════════════════════════════════════════════════════════
 // UTILITY
+// FIX: stricter guard — handles NaN and undefined explicitly
 // ════════════════════════════════════════════════════════════
 function fmt(n) {
-  if (!n) return '0';
-  return Number(n).toLocaleString('en-IN');
+  const num = Number(n);
+  if (n == null || n === '' || Number.isNaN(num)) return '0';
+  return num.toLocaleString('en-IN');
+}
+
+// ════════════════════════════════════════════════════════════
+// SERVICE WORKER — PWA install support
+// ════════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/naam-japa-counter/sw.js', { scope: '/naam-japa-counter/' }).catch(() => {});
+  });
 }
 
 // ════════════════════════════════════════════════════════════
 // BOOT
 // ════════════════════════════════════════════════════════════
 migrateV2();
+// FIX: restore persisted in-progress bead count — survives reload/crash
+beadCount = Math.min(MALA_SIZE - 1, Math.max(0, parseInt(localStorage.getItem(BEAD_KEY) || '0', 10)));
+// Set count-denom from constant so it stays in sync with MALA_SIZE
+document.getElementById('countDenom').textContent = `/ ${MALA_SIZE}`;
 buildRing();
 applyLayout();
 refreshDisplay();
