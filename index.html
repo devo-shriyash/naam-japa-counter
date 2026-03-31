@@ -4,12 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>नाम जप — राधा वल्लभ</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#d97626">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="नाम जप">
-  <link rel="apple-touch-icon" href="icon-192.png">
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -513,6 +507,67 @@
       .mob-icon { font-size: 1.05rem; line-height: 1; }
     }
 
+    /* ═══ RESPONSIVE — DESKTOP (>768px) ════════════════════ */
+    @media (min-width: 769px) {
+      .ring-wrapper {
+        width:  clamp(340px, 46vh, 580px);
+        height: clamp(340px, 46vh, 580px);
+      }
+      .japa-panel::before {
+        width:  clamp(480px, 66vh, 820px);
+        height: clamp(480px, 66vh, 820px);
+      }
+      .name-display {
+        font-size:     clamp(2.3rem, 3.4vh, 3.8rem);
+        margin-bottom: clamp(0.9rem, 1.4vh, 1.5rem);
+        min-height:    auto;
+      }
+      .count-number {
+        font-size: clamp(3.6rem, 5.6vh, 6rem);
+      }
+      .count-denom {
+        font-size:  clamp(0.8rem, 1.2vh, 1.15rem);
+        margin-top: 0.3rem;
+      }
+      .tap-cue {
+        font-size:  clamp(0.58rem, 0.85vh, 0.82rem);
+        margin-top: clamp(0.7rem, 1.1vh, 1.1rem);
+      }
+      .name-tabs {
+        margin-bottom: clamp(1rem, 1.6vh, 1.7rem);
+      }
+      .name-tab {
+        font-size: clamp(0.88rem, 1.2vh, 1.1rem);
+        padding:   clamp(0.45rem, 0.7vh, 0.7rem) clamp(1.1rem, 1.6vh, 1.6rem);
+      }
+      .session-row {
+        gap:        clamp(1.6rem, 2.6vh, 3rem);
+        margin-top: clamp(1.1rem, 1.8vh, 2rem);
+      }
+      .s-val {
+        font-size: clamp(1.8rem, 2.8vh, 3.2rem);
+      }
+      .s-lbl {
+        font-size:  clamp(0.58rem, 0.85vh, 0.82rem);
+        margin-top: 0.3rem;
+      }
+      .s-sep {
+        height: clamp(2rem, 3vh, 3.2rem);
+      }
+      .controls {
+        gap:        clamp(0.55rem, 0.9vh, 0.9rem);
+        margin-top: clamp(0.95rem, 1.5vh, 1.7rem);
+      }
+      .btn {
+        font-size: clamp(0.73rem, 1.05vh, 1rem);
+        padding:   clamp(0.42rem, 0.65vh, 0.65rem) clamp(1.05rem, 1.6vh, 1.6rem);
+      }
+      .kbd-hint {
+        font-size:  clamp(0.56rem, 0.8vh, 0.78rem);
+        margin-top: clamp(0.6rem, 0.95vh, 1rem);
+      }
+    }
+
     * { scrollbar-width: thin; scrollbar-color: var(--border-hi) transparent; }
   </style>
 </head>
@@ -996,15 +1051,6 @@ document.addEventListener('keydown', e => {
 function fmt(n) {
   if (!n) return '0';
   return Number(n).toLocaleString('en-IN');
-}
-
-// ════════════════════════════════════════════════════════════
-// SERVICE WORKER — PWA install support
-// ════════════════════════════════════════════════════════════
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/naam-japa-counter/sw.js', { scope: '/naam-japa-counter/' }).catch(() => {});
-  });
 }
 
 // ════════════════════════════════════════════════════════════
