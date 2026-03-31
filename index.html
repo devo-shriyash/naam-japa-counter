@@ -564,7 +564,8 @@
 
     <div class="name-display" id="nameDisplay">राधा</div>
 
-    <div class="ring-wrapper" id="ringWrapper" onclick="countJapa()">
+    <div class="ring-wrapper" id="ringWrapper" onclick="countJapa()"
+         role="button" tabindex="0" aria-label="जप करें">
       <svg class="ring-svg" id="malaSvg" viewBox="-155 -155 310 310" xmlns="http://www.w3.org/2000/svg">
         <circle class="ring-track" cx="0" cy="0" r="136"/>
       </svg>
@@ -648,6 +649,7 @@ const NAMES = {
 const MALA_SIZE = 108;
 const STORE_KEY = 'jpDailyV3';
 const BEAD_KEY  = 'jpBead';     // FIX: persists in-progress bead count
+const NAME_KEY  = 'jpActive';   // FIX: persists active name — prevents wrong-name restore on reload
 const OLD_KEY   = 'japaEntries_v2';
 
 let activeName   = 'radha';
@@ -884,6 +886,7 @@ function selectName(name) {
   activeName = name;
   beadCount  = 0;
   saveBead();
+  localStorage.setItem(NAME_KEY, name);  // FIX: persist so reload restores correct name
   document.getElementById('nameDisplay').textContent = NAMES[name];
   document.querySelectorAll('.name-tab').forEach(t => t.classList.remove('active'));
   document.getElementById(`tab-${name}`).classList.add('active');
@@ -957,7 +960,7 @@ function renderLog() {
       const nd = rec[name];
       if (!nd || (nd.count === 0 && nd.malas === 0)) continue;
 
-      const extra     = nd.count - nd.malas * MALA_SIZE;
+      const extra     = Math.max(0, nd.count - nd.malas * MALA_SIZE);  // FIX: guard against negative extra on corrupted data
       const malaLabel = nd.malas > 0
         ? `${fmt(nd.malas)} माला${extra > 0 ? ' + ' + fmt(extra) + ' जप' : ''}`
         : `${fmt(nd.count)} जप`;
@@ -1036,7 +1039,7 @@ window.addEventListener('resize', () => {
 // ════════════════════════════════════════════════════════════
 document.addEventListener('keydown', e => {
   if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
-  if (e.target.tagName === 'BUTTON' && e.code !== 'Space') return;
+  if (e.target.tagName === 'BUTTON') return;  // FIX: Space on focused button would fire onclick AND countJapa — bail here
   if (e.code === 'Space')                      { e.preventDefault(); countJapa(); }
   if (e.key === 's' || e.key === 'S')          { e.preventDefault(); savePartial(); }
   if (e.key === 'z' || e.key === 'Z')          { e.preventDefault(); undoCount(); }
@@ -1052,6 +1055,11 @@ function fmt(n) {
   return num.toLocaleString('en-IN');
 }
 
+// FIX: ring is now focusable (tabindex=0) — wire up Enter/Space so keyboard users can count
+document.getElementById('ringWrapper').addEventListener('keydown', e => {
+  if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); countJapa(); }
+});
+
 // ════════════════════════════════════════════════════════════
 // SERVICE WORKER — PWA install support
 // ════════════════════════════════════════════════════════════
@@ -1065,8 +1073,14 @@ if ('serviceWorker' in navigator) {
 // BOOT
 // ════════════════════════════════════════════════════════════
 migrateV2();
-// FIX: restore persisted in-progress bead count — survives reload/crash
-beadCount = Math.min(MALA_SIZE - 1, Math.max(0, parseInt(localStorage.getItem(BEAD_KEY) || '0', 10)));
+// FIX: restore active name FIRST — beadCount belongs to whichever name was active,
+//      so we must know the name before showing the count
+activeName = localStorage.getItem(NAME_KEY) || 'radha';
+beadCount  = Math.min(MALA_SIZE - 1, Math.max(0, parseInt(localStorage.getItem(BEAD_KEY) || '0', 10)));
+// Sync name UI with restored name (was always showing 'राधा' regardless of what was saved)
+document.getElementById('nameDisplay').textContent = NAMES[activeName];
+document.querySelectorAll('.name-tab').forEach(t => t.classList.remove('active'));
+document.getElementById(`tab-${activeName}`).classList.add('active');
 // Set count-denom from constant so it stays in sync with MALA_SIZE
 document.getElementById('countDenom').textContent = `/ ${MALA_SIZE}`;
 buildRing();
