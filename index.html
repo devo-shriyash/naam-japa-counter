@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>नाम जप — राधा वल्लभ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep:    #060401;
+      --bg:         #0b0804;
+      --surface:    #131009;
+      --card:       #1a1410;
+      --card-hi:    #221c14;
+      --border:     #261d10;
+      --border-hi:  #3a2c18;
+      --or:         #d97626;
+      --or-bright:  #f09535;
+      --or-pale:    rgba(232,169,96,0.55);
+      --or-dim:     #7a4512;
+      --or-glow:    rgba(232,133,58,0.16);
+      --gold:       #f5c842;
+      --gold-dim:   #c4962a;
+      --text:       #ede0ca;
+      --text-mid:   #a08868;
+      --text-dim:   #5c4830;
+      --text-ghost: #3a2c1c;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg-deep);
+      color: var(--text);
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      overflow: hidden;
+    }
+    body { display: flex; flex-direction: column; }
+
+    /* ═══ HEADER ═══════════════════════════════════════════ */
+    header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0.8rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: relative;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 50%;
+      transform: translateX(-50%);
+      width: 160px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--or), transparent);
+    }
+    .hdr-title {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 1.1rem;
+      color: var(--or-bright);
+      letter-spacing: 0.12em;
+      text-shadow: 0 0 24px var(--or-pale);
+    }
+    .hdr-sub {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      letter-spacing: 0.18em;
+      margin-top: 0.1rem;
+    }
+
+    /* ═══ MAIN ══════════════════════════════════════════════ */
+    .main {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* ═══ JAPA PANEL ════════════════════════════════════════ */
+    .japa-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 1.2rem 2rem 1.5rem;
+      border-right: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    /* ambient glow */
+    .japa-panel::before {
+      content: '';
+      position: absolute;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(42,26,8,0.2) 0%, transparent 68%);
+      pointer-events: none;
+      animation: breathe 4.5s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%,100% { transform: scale(1);   opacity: 0.5; }
+      50%      { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* Name tabs */
+    .name-tabs {
+      display: flex;
+      gap: 0.35rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 0.22rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .name-tab {
+      padding: 0.45rem 1.1rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 0.88rem;
+      transition: background 0.28s, color 0.28s, box-shadow 0.28s;
+      background: transparent;
+      color: var(--text-mid);
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .name-tab.active {
+      background: linear-gradient(135deg, var(--or), #b85e1a);
+      color: #fff8ee;
+      box-shadow: 0 0 16px var(--or-glow);
+    }
+
+    /* Name display */
+    .name-display {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 2.3rem;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.25;
+      text-shadow: 0 0 48px rgba(232,133,58,0.35);
+      margin-bottom: 0.9rem;
+      min-height: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Mala ring */
+    .ring-wrapper {
+      position: relative;
+      width: 340px;
+      height: 340px;
+      cursor: pointer;
+      user-select: none;
+      flex-shrink: 0;
+      z-index: 1;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ring-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      display: block;
+    }
+    .ring-track { fill: none; stroke: var(--border); stroke-width: 0.8; }
+    /* Bead classes — set via setAttribute, no CSS transition for perf */
+    .bead-unlit        { fill: var(--text-ghost); }
+    .bead-lit          { fill: var(--or-bright); }
+    .bead-sumeru-unlit { fill: var(--gold-dim); opacity: 0.45; }
+    .bead-sumeru-lit   { fill: var(--gold); }
+
+    .ring-center {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .count-number {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 3.6rem;
+      font-weight: 700;
+      color: var(--or-bright);
+      line-height: 1;
+      text-shadow: 0 0 24px var(--or-pale);
+    }
+    .count-denom {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 0.18rem;
+      letter-spacing: 0.08em;
+    }
+    .tap-cue {
+      font-size: 0.58rem;
+      color: var(--text-ghost);
+      margin-top: 0.7rem;
+      letter-spacing: 0.18em;
+    }
+
+    /* Tap animation — class toggled by JS */
+    .ring-tapped { animation: ring-tap 0.15s ease; }
+    @keyframes ring-tap {
+      0%   { transform: scale(1); }
+      45%  { transform: scale(1.028); }
+      100% { transform: scale(1); }
+    }
+
+    /* Session stats */
+    .session-row {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      margin-top: 1.1rem;
+      z-index: 1;
+    }
+    .s-stat { text-align: center; }
+    .s-val {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 1.8rem;
+      color: var(--or);
+      line-height: 1;
+    }
+    .s-lbl {
+      font-size: 0.58rem;
+      color: var(--text-dim);
+      margin-top: 0.22rem;
+    }
+    .s-sep { width: 1px; height: 2rem; background: var(--border-hi); }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 0.55rem;
+      margin-top: 0.95rem;
+      z-index: 1;
+    }
+    .btn {
+      padding: 0.42rem 1.05rem;
+      border-radius: 30px;
+      border: 1px solid var(--border-hi);
+      background: var(--surface);
+      color: var(--text-mid);
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 0.73rem;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s, border-color 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:hover { border-color: var(--or-dim); color: var(--text); background: var(--card); }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--or), #9e5010);
+      color: #fff8ee;
+      border-color: transparent;
+    }
+    .btn.primary:hover { opacity: 0.85; }
+
+    .kbd-hint { font-size: 0.56rem; color: var(--text-ghost); margin-top: 0.6rem; z-index: 1; }
+
+    /* ═══ LOG PANEL ═════════════════════════════════════════ */
+    .log-panel {
+      width: 360px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      min-height: 0;
+    }
+
+    /* Period tabs */
+    .period-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .period-tab {
+      flex: 1;
+      padding: 0.68rem 0.2rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      transition: color 0.18s, border-color 0.18s;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .period-tab.active { color: var(--or-bright); border-bottom-color: var(--or); }
+
+    /* Stats cards */
+    .stats-section {
+      padding: 0.85rem;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.65rem 0.85rem;
+    }
+    .sc-name {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-bottom: 0.3rem;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .sc-malas {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 1.65rem;
+      color: var(--or-bright);
+      line-height: 1;
+    }
+    .sc-sub { font-size: 0.6rem; color: var(--text-mid); margin-top: 0.18rem; }
+    .stat-card.total-card {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-hi);
+      border-color: var(--border-hi);
+    }
+    .total-val {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .total-lbl { font-size: 0.58rem; color: var(--text-dim); margin-top: 0.15rem; }
+
+    /* Log list */
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .log-title { font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.14em; text-transform: uppercase; }
+    .btn-xs {
+      padding: 0.18rem 0.6rem;
+      font-size: 0.58rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-ghost);
+      cursor: pointer;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      transition: color 0.15s, border-color 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-xs:hover { color: var(--text-dim); border-color: var(--border-hi); }
+
+    .log-list {
+      flex: 1;
+      overflow-y: auto;
+      min-height: 0;
+      -webkit-overflow-scrolling: touch;
+    }
+    .log-list::-webkit-scrollbar { width: 3px; }
+    .log-list::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
+
+    /* Date group */
+    .log-date-hdr {
+      padding: 0.42rem 0.85rem 0.2rem;
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 2;
+    }
+    .log-name-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.52rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .entry-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .dot-radha     { background: var(--or-bright); box-shadow: 0 0 4px var(--or); }
+    .dot-harivansh { background: var(--gold-dim);  box-shadow: 0 0 4px var(--gold-dim); }
+    .entry-name-text {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 0.82rem;
+      color: var(--text);
+      flex: 1;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .entry-stats { text-align: right; flex-shrink: 0; }
+    .entry-malas { font-size: 0.82rem; color: var(--or); }
+    .entry-jap   { font-size: 0.6rem;  color: var(--text-dim); margin-top: 0.06rem; }
+
+    .log-empty {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 160px; padding: 2rem;
+      color: var(--text-ghost); font-size: 0.78rem; text-align: center;
+      gap: 0.4rem; line-height: 1.9;
+    }
+    .log-empty .om { font-family: 'Tiro Devanagari Hindi', serif; font-size: 1.8rem; margin-bottom: 0.15rem; }
+
+    /* ═══ FLASH ══════════════════════════════════════════════ */
+    #flash {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      border: 2px solid var(--or);
+      opacity: 0;
+    }
+    .flash-on { animation: do-flash 0.65s ease-out forwards; }
+    @keyframes do-flash {
+      0%  { opacity: 0; }
+      18% { opacity: 0.55; }
+      100%{ opacity: 0; }
+    }
+
+    /* ═══ MOBILE NAV ══════════════════════════════════════════ */
+    .mobile-nav { display: none; }
+
+    /* ═══ RESPONSIVE — MOBILE (≤768px) ══════════════════════ */
+    @media (max-width: 768px) {
+
+      body { overflow: hidden; }
+
+      .main {
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* Each panel takes up the full main area; only one shown at a time */
+      .japa-panel, .log-panel {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        border-right: none;
+        border-top: none;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        /* hidden by default on mobile */
+        display: none !important;
+      }
+      .japa-panel {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1rem 1rem 1.2rem;
+      }
+      .log-panel { width: 100%; }
+
+      /* Active class shows the panel */
+      .japa-panel.mob-active { display: flex !important; }
+      .log-panel.mob-active  { display: flex !important; }
+
+      /* Smaller ring */
+      .ring-wrapper { width: 268px; height: 268px; }
+
+      .name-display  { font-size: 1.75rem; margin-bottom: 0.65rem; min-height: auto; }
+      .count-number  { font-size: 2.75rem; }
+      .session-row   { gap: 1.1rem; margin-top: 0.85rem; }
+      .s-val         { font-size: 1.45rem; }
+      .controls      { margin-top: 0.7rem; }
+      .kbd-hint      { display: none; }
+
+      /* Log panel mobile */
+      .log-panel { flex-direction: column; }
+      .period-tab { font-size: 0.65rem; padding: 0.6rem 0.15rem; }
+      .sc-malas   { font-size: 1.35rem; }
+      .stats-section { padding: 0.7rem; }
+      .stats-grid { gap: 0.4rem; }
+
+      /* Mobile bottom nav */
+      .mobile-nav {
+        display: flex;
+        flex-shrink: 0;
+        border-top: 1px solid var(--border);
+        background: var(--bg);
+        position: relative;
+        z-index: 10;
+      }
+      .mob-btn {
+        flex: 1;
+        padding: 0.7rem 0.5rem 0.55rem;
+        display: flex; flex-direction: column; align-items: center; gap: 0.18rem;
+        border: none;
+        background: transparent;
+        color: var(--text-dim);
+        cursor: pointer;
+        font-family: 'Noto Sans Devanagari', sans-serif;
+        font-size: 0.65rem;
+        border-top: 2px solid transparent;
+        transition: color 0.18s, border-color 0.18s;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .mob-btn.active { color: var(--or-bright); border-top-color: var(--or); }
+      .mob-icon { font-size: 1.05rem; line-height: 1; }
+    }
+
+    * { scrollbar-width: thin; scrollbar-color: var(--border-hi) transparent; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-title">॥ नाम जप ॥</div>
+  <div class="hdr-sub">राधा वल्लभ सम्प्रदाय</div>
+</header>
+
+<div class="main" id="mainArea">
+
+  <!-- ══════════ JAPA PANEL ══════════ -->
+  <div class="japa-panel" id="japaPanel">
+
+    <div class="name-tabs">
+      <button class="name-tab active" id="tab-radha"     onclick="selectName('radha')">राधा</button>
+      <button class="name-tab"        id="tab-harivansh" onclick="selectName('harivansh')">राधा वल्लभ श्री हरिवंश</button>
+    </div>
+
+    <div class="name-display" id="nameDisplay">राधा</div>
+
+    <div class="ring-wrapper" id="ringWrapper" onclick="countJapa()">
+      <svg class="ring-svg" id="malaSvg" viewBox="-155 -155 310 310" xmlns="http://www.w3.org/2000/svg">
+        <circle class="ring-track" cx="0" cy="0" r="136"/>
+      </svg>
+      <div class="ring-center">
+        <div class="count-number" id="countNum">0</div>
+        <div class="count-denom">/ 108</div>
+        <div class="tap-cue">◉ TAP</div>
+      </div>
+    </div>
+
+    <div class="session-row">
+      <div class="s-stat">
+        <div class="s-val" id="todayMalas">0</div>
+        <div class="s-lbl">आज माला</div>
+      </div>
+      <div class="s-sep"></div>
+      <div class="s-stat">
+        <div class="s-val" id="todayCount">0</div>
+        <div class="s-lbl">आज जप</div>
+      </div>
+      <div class="s-sep"></div>
+      <div class="s-stat">
+        <div class="s-val" id="allMalas">0</div>
+        <div class="s-lbl">कुल माला</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn"         onclick="undoCount()">← पिछला</button>
+      <button class="btn primary" onclick="savePartial()">सहेजें</button>
+      <button class="btn"         onclick="resetCurrent()">रीसेट</button>
+    </div>
+
+    <div class="kbd-hint">Space — एक जप &nbsp;·&nbsp; S — सहेजें</div>
+  </div>
+
+  <!-- ══════════ LOG PANEL ══════════ -->
+  <div class="log-panel" id="logPanel">
+
+    <div class="period-tabs">
+      <button class="period-tab active" id="pt-today" onclick="setPeriod('today')">आज</button>
+      <button class="period-tab"        id="pt-week"  onclick="setPeriod('week')">सप्ताह</button>
+      <button class="period-tab"        id="pt-month" onclick="setPeriod('month')">माह</button>
+      <button class="period-tab"        id="pt-all"   onclick="setPeriod('all')">सर्वकाल</button>
+    </div>
+
+    <div class="stats-section">
+      <div class="stats-grid" id="statsGrid"></div>
+    </div>
+
+    <div class="log-header">
+      <span class="log-title">जप लॉग</span>
+      <button class="btn-xs" onclick="clearAll()">सब हटाएँ</button>
+    </div>
+
+    <div class="log-list" id="logList"></div>
+  </div>
+
+</div><!-- .main -->
+
+<!-- Mobile bottom nav (hidden on desktop) -->
+<nav class="mobile-nav" id="mobileNav">
+  <button class="mob-btn active" id="mn-japa" onclick="showMobileTab('japa')">
+    <span class="mob-icon">📿</span>जप
+  </button>
+  <button class="mob-btn" id="mn-log" onclick="showMobileTab('log')">
+    <span class="mob-icon">📊</span>लॉग
+  </button>
+</nav>
+
+<div id="flash"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// CONSTANTS & STATE
+// ════════════════════════════════════════════════════════════
+const NAMES = {
+  radha:     'राधा',
+  harivansh: 'राधा वल्लभ श्री हरिवंश'
+};
+const MALA_SIZE = 108;
+const STORE_KEY = 'jpDailyV3';
+const OLD_KEY   = 'japaEntries_v2';
+
+let activeName   = 'radha';
+let beadCount    = 0;       // 0–107, progress in current mala
+let activePeriod = 'today';
+
+// ════════════════════════════════════════════════════════════
+// STORAGE — Daily Aggregation
+// Shape: { 'YYYY-MM-DD': { radha:{count,malas}, harivansh:{count,malas} } }
+// One record per day per name — handles 50,000+ japa without bloat.
+// ════════════════════════════════════════════════════════════
+function getLog()        { try { return JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch { return {}; } }
+function setLog(data)    { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+
+function addJapa(name, count, malas) {
+  const data = getLog();
+  const d    = todayStr();
+  if (!data[d])        data[d]        = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
+  if (!data[d][name])  data[d][name]  = { count:0, malas:0 };
+  data[d][name].count += count;
+  data[d][name].malas += malas;
+  setLog(data);
+}
+
+// Migrate old per-entry format (v2) if present
+function migrateV2() {
+  const raw = localStorage.getItem(OLD_KEY);
+  if (!raw) return;
+  try {
+    const entries = JSON.parse(raw);
+    const data    = getLog();
+    for (const e of entries) {
+      if (!e.date || !NAMES[e.name]) continue;
+      if (!data[e.date])       data[e.date]       = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
+      if (!data[e.date][e.name]) data[e.date][e.name] = {count:0,malas:0};
+      data[e.date][e.name].count += (e.count || 0);
+      data[e.date][e.name].malas += (e.malas || 0);
+    }
+    setLog(data);
+    localStorage.removeItem(OLD_KEY);
+  } catch {}
+}
+
+// ════════════════════════════════════════════════════════════
+// DATE HELPERS
+// ════════════════════════════════════════════════════════════
+function pad(n)     { return String(n).padStart(2,'0'); }
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+}
+function weekStartStr() {
+  const d   = new Date();
+  const dow = d.getDay();                       // 0=Sun
+  const off = (dow === 0) ? -6 : 1 - dow;      // shift to Monday
+  const m   = new Date(d.getFullYear(), d.getMonth(), d.getDate() + off);
+  return `${m.getFullYear()}-${pad(m.getMonth()+1)}-${pad(m.getDate())}`;
+}
+function monthStartStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-01`;
+}
+function inPeriod(dateStr) {
+  if (activePeriod === 'all')   return true;
+  if (activePeriod === 'today') return dateStr === todayStr();
+  if (activePeriod === 'week')  return dateStr >= weekStartStr();
+  if (activePeriod === 'month') return dateStr >= monthStartStr();
+  return true;
+}
+function dateLabel(dateStr) {
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const t       = todayStr();
+  if (dateStr === t) return 'आज';
+  const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+  const yStr = `${yesterday.getFullYear()}-${pad(yesterday.getMonth()+1)}-${pad(yesterday.getDate())}`;
+  if (dateStr === yStr) return 'कल';
+  const thisYear = new Date().getFullYear();
+  return new Date(y, m-1, d).toLocaleDateString('hi-IN', {
+    day: 'numeric', month: 'short',
+    ...(y !== thisYear && { year: 'numeric' })
+  });
+}
+
+// ════════════════════════════════════════════════════════════
+// AGGREGATION
+// ════════════════════════════════════════════════════════════
+function getStats() {
+  const data = getLog();
+  const r    = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
+  for (const [date, rec] of Object.entries(data)) {
+    if (!inPeriod(date)) continue;
+    for (const n of ['radha','harivansh']) {
+      if (rec[n]) { r[n].count += rec[n].count; r[n].malas += rec[n].malas; }
+    }
+  }
+  return r;
+}
+function getTodayEntry(name) {
+  const rec = (getLog()[todayStr()] || {})[name];
+  return rec || { count:0, malas:0 };
+}
+function getAllMalas(name) {
+  let t = 0;
+  for (const rec of Object.values(getLog())) {
+    if (rec[name]) t += rec[name].malas;
+  }
+  return t;
+}
+
+// ════════════════════════════════════════════════════════════
+// MALA RING — 108 SVG beads, built once, updated by setAttribute
+// ════════════════════════════════════════════════════════════
+const beadEls = [];
+
+function buildRing() {
+  const svg = document.getElementById('malaSvg');
+  svg.querySelectorAll('.jpb').forEach(b => b.remove());
+  beadEls.length = 0;
+
+  const R = 136, r = 3.4, rS = 5.2;
+  for (let i = 0; i < MALA_SIZE; i++) {
+    const ang     = (i / MALA_SIZE) * 2 * Math.PI - Math.PI / 2;
+    const c       = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    const sumeru  = (i === 0);
+    c.setAttribute('cx', (R * Math.cos(ang)).toFixed(3));
+    c.setAttribute('cy', (R * Math.sin(ang)).toFixed(3));
+    c.setAttribute('r',  sumeru ? rS : r);
+    c.setAttribute('class', `jpb ${sumeru ? 'bead-sumeru-unlit' : 'bead-unlit'}`);
+    svg.appendChild(c);
+    beadEls.push({ el: c, sumeru });
+  }
+}
+
+function refreshBeads() {
+  for (let i = 0; i < MALA_SIZE; i++) {
+    const { el, sumeru } = beadEls[i];
+    const lit = i < beadCount;
+    el.setAttribute('class', `jpb ${sumeru ? (lit ? 'bead-sumeru-lit' : 'bead-sumeru-unlit') : (lit ? 'bead-lit' : 'bead-unlit')}`);
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// DISPLAY REFRESH — single entry point, no redundant calls
+// ════════════════════════════════════════════════════════════
+function refreshDisplay() {
+  document.getElementById('countNum').textContent = beadCount;
+  refreshBeads();
+  const td  = getTodayEntry(activeName);
+  const aml = getAllMalas(activeName);
+  document.getElementById('todayMalas').textContent = fmt(td.malas);
+  document.getElementById('todayCount').textContent = fmt(td.count + beadCount);
+  document.getElementById('allMalas').textContent   = fmt(aml);
+}
+
+// ════════════════════════════════════════════════════════════
+// JAPA ACTIONS
+// ════════════════════════════════════════════════════════════
+function countJapa() {
+  beadCount++;
+
+  // Tap animation — remove, force reflow, re-add
+  const rw = document.getElementById('ringWrapper');
+  rw.classList.remove('ring-tapped');
+  void rw.offsetWidth;
+  rw.classList.add('ring-tapped');
+
+  if (beadCount >= MALA_SIZE) {
+    addJapa(activeName, MALA_SIZE, 1);
+    beadCount = 0;
+    doFlash();
+    renderLog();            // update log immediately
+  }
+
+  refreshDisplay();
+  renderStats();
+}
+
+function undoCount() {
+  if (beadCount <= 0) return;
+  beadCount--;
+  refreshDisplay();
+  renderStats();
+}
+
+function savePartial() {
+  if (beadCount <= 0) return;
+  addJapa(activeName, beadCount, 0);
+  beadCount = 0;
+  refreshDisplay();
+  renderStats();
+  renderLog();
+}
+
+function resetCurrent() {
+  if (beadCount > 0 && !confirm('वर्तमान जप गणना रीसेट करें?')) return;
+  beadCount = 0;
+  refreshDisplay();
+  renderStats();
+}
+
+function doFlash() {
+  const f = document.getElementById('flash');
+  f.classList.remove('flash-on');
+  void f.offsetWidth;
+  f.classList.add('flash-on');
+}
+
+// ════════════════════════════════════════════════════════════
+// NAME SELECTION
+// ════════════════════════════════════════════════════════════
+function selectName(name) {
+  if (activeName === name) return;
+  if (beadCount > 0 && !confirm('नाम बदलने पर वर्तमान गणना रीसेट होगी। जारी रखें?')) return;
+  activeName = name;
+  beadCount  = 0;
+  document.getElementById('nameDisplay').textContent = NAMES[name];
+  document.querySelectorAll('.name-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${name}`).classList.add('active');
+  refreshDisplay();
+  renderStats();
+}
+
+// ════════════════════════════════════════════════════════════
+// PERIOD SELECTION
+// ════════════════════════════════════════════════════════════
+function setPeriod(p) {
+  activePeriod = p;
+  document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`pt-${p}`).classList.add('active');
+  renderStats();
+}
+
+// ════════════════════════════════════════════════════════════
+// STATS RENDER
+// ════════════════════════════════════════════════════════════
+function renderStats() {
+  const s   = getStats();
+  const tot = { malas: s.radha.malas + s.harivansh.malas, count: s.radha.count + s.harivansh.count };
+
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card">
+      <div class="sc-name">राधा</div>
+      <div class="sc-malas">${fmt(s.radha.malas)}</div>
+      <div class="sc-sub">${fmt(s.radha.count)} जप</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-name">राधा वल्लभ श्री हरिवंश</div>
+      <div class="sc-malas">${fmt(s.harivansh.malas)}</div>
+      <div class="sc-sub">${fmt(s.harivansh.count)} जप</div>
+    </div>
+    <div class="stat-card total-card">
+      <div>
+        <div class="total-val">${fmt(tot.malas)}</div>
+        <div class="total-lbl">कुल माला</div>
+      </div>
+      <div style="text-align:right">
+        <div class="total-val">${fmt(tot.count)}</div>
+        <div class="total-lbl">कुल जप</div>
+      </div>
+    </div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// LOG RENDER — Daily Grouped View
+// Max rows = days × names (≤2 per day). Scales to 50,000+ japa.
+// ════════════════════════════════════════════════════════════
+function renderLog() {
+  const data  = getLog();
+  const dates = Object.keys(data).sort((a,b) => b.localeCompare(a));   // newest first
+  const list  = document.getElementById('logList');
+
+  if (dates.length === 0) {
+    list.innerHTML = `<div class="log-empty">
+      <div class="om">॥</div>
+      अभी कोई जप नहीं<br>माला आरम्भ करें
+      <span style="font-size:0.58rem;color:var(--text-ghost)">राधे राधे</span>
+    </div>`;
+    return;
+  }
+
+  const chunks = [];
+  for (const date of dates) {
+    const rec  = data[date];
+    const rows = [];
+
+    for (const name of ['radha','harivansh']) {
+      const nd = rec[name];
+      if (!nd || (nd.count === 0 && nd.malas === 0)) continue;
+
+      // Extra japs beyond complete malas (partials)
+      const extra     = nd.count - nd.malas * MALA_SIZE;
+      const malaLabel = nd.malas > 0
+        ? `${fmt(nd.malas)} माला${extra > 0 ? ' + ' + fmt(extra) + ' जप' : ''}`
+        : `${fmt(nd.count)} जप`;
+
+      rows.push(`<div class="log-name-row">
+        <div class="entry-dot ${name === 'radha' ? 'dot-radha' : 'dot-harivansh'}"></div>
+        <div class="entry-name-text">${NAMES[name]}</div>
+        <div class="entry-stats">
+          <div class="entry-malas">${malaLabel}</div>
+          <div class="entry-jap">${fmt(nd.count)} जप कुल</div>
+        </div>
+      </div>`);
+    }
+
+    if (rows.length === 0) continue;
+    chunks.push(`<div class="log-date-group">
+      <div class="log-date-hdr">${dateLabel(date)}</div>
+      ${rows.join('')}
+    </div>`);
+  }
+
+  list.innerHTML = chunks.length
+    ? chunks.join('')
+    : `<div class="log-empty"><div class="om">॥</div>कोई जप नहीं</div>`;
+}
+
+function clearAll() {
+  if (!confirm('सम्पूर्ण जप लॉग हटाएँ?\nयह क्रिया वापस नहीं होगी।')) return;
+  setLog({});
+  beadCount = 0;
+  refreshDisplay();
+  renderStats();
+  renderLog();
+}
+
+// ════════════════════════════════════════════════════════════
+// MOBILE TAB SWITCHING
+// ════════════════════════════════════════════════════════════
+function showMobileTab(tab) {
+  const isJapa = (tab === 'japa');
+  document.getElementById('japaPanel').classList.toggle('mob-active', isJapa);
+  document.getElementById('logPanel').classList.toggle('mob-active',  !isJapa);
+  document.getElementById('mn-japa').classList.toggle('active',  isJapa);
+  document.getElementById('mn-log').classList.toggle('active',   !isJapa);
+}
+
+// ════════════════════════════════════════════════════════════
+// RESPONSIVE: detect mobile and manage panel visibility
+// ════════════════════════════════════════════════════════════
+function applyLayout() {
+  const mobile = window.innerWidth <= 768;
+  const jp     = document.getElementById('japaPanel');
+  const lp     = document.getElementById('logPanel');
+
+  if (mobile) {
+    // On mobile: only one panel at a time via mob-active
+    // Default to japa on first load; preserve current tab if already mobile
+    if (!jp.classList.contains('mob-active') && !lp.classList.contains('mob-active')) {
+      jp.classList.add('mob-active');
+      document.getElementById('mn-japa').classList.add('active');
+    }
+  } else {
+    // Desktop: remove mob-active from both — CSS shows them side-by-side
+    jp.classList.remove('mob-active');
+    lp.classList.remove('mob-active');
+  }
+}
+
+window.addEventListener('resize', applyLayout);
+
+// ════════════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ════════════════════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+  // Allow space on buttons to count; block other shortcuts when button focused
+  if (e.target.tagName === 'BUTTON' && e.code !== 'Space') return;
+  if (e.code === 'Space') { e.preventDefault(); countJapa(); }
+  if (e.key  === 's' || e.key === 'S') { e.preventDefault(); savePartial(); }
+});
+
+// ════════════════════════════════════════════════════════════
+// UTILITY
+// ════════════════════════════════════════════════════════════
+function fmt(n) {
+  if (!n) return '0';
+  return Number(n).toLocaleString('en-IN');
+}
+
+// ════════════════════════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════════════════════════
+migrateV2();
+buildRing();
+applyLayout();
+refreshDisplay();
+renderStats();
+renderLog();
+</script>
+</body>
+</html>
