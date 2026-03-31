@@ -1003,7 +1003,7 @@ function fmt(n) {
 // ════════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
+    navigator.serviceWorker.register('/naam-japa-counter/sw.js', { scope: '/naam-japa-counter/' }).catch(() => {});
   });
 }
 
