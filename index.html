@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="नाम जप">
   <link rel="apple-touch-icon" href="icon-192.png">
-  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Tiro+Devanagari+Hindi:ital@0;1&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -51,7 +51,7 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      padding: 0.8rem 1.5rem;
+      padding: 0.75rem 1.5rem;
       border-bottom: 1px solid var(--border);
       background: var(--bg);
       position: relative;
@@ -66,13 +66,13 @@
     }
     .hdr-title {
       font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: 1.1rem;
+      font-size: 1.35rem;
       color: var(--or-bright);
       letter-spacing: 0.12em;
       text-shadow: 0 0 24px var(--or-pale);
     }
     .hdr-sub {
-      font-size: 0.6rem;
+      font-size: 0.78rem;
       color: var(--text-dim);
       letter-spacing: 0.18em;
       margin-top: 0.1rem;
@@ -92,7 +92,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1.2rem 2rem 1.5rem;
+      padding: 1rem 2rem 1.2rem;
       border-right: 1px solid var(--border);
       position: relative;
       overflow: hidden;
@@ -103,7 +103,7 @@
       position: absolute;
       width: 480px; height: 480px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(42,26,8,0.2) 0%, transparent 68%);
+      background: radial-gradient(circle, rgba(42,26,8,0.18) 0%, transparent 68%);
       pointer-events: none;
       animation: breathe 4.5s ease-in-out infinite;
     }
@@ -114,29 +114,37 @@
 
     /* Name tabs */
     .name-tabs {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 0.35rem;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 50px;
       padding: 0.22rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
       position: relative;
       z-index: 1;
     }
     .name-tab {
-      padding: 0.45rem 1.1rem;
+      width: 100%;
+      min-height: 2.35rem;
+      padding: 0.35rem 0.8rem;
       border-radius: 50px;
       border: none;
       cursor: pointer;
       font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       transition: background 0.28s, color 0.28s, box-shadow 0.28s;
       background: transparent;
       color: var(--text-mid);
-      white-space: nowrap;
+      white-space: normal;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.15;
+      text-align: center;
       -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation; /* FIX: eliminates 300ms click delay */
+      touch-action: manipulation;
     }
     .name-tab.active {
       background: linear-gradient(135deg, var(--or), #b85e1a);
@@ -147,13 +155,12 @@
     /* Name display */
     .name-display {
       font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: 2.3rem;
+      font-size: 2.5rem;
       color: var(--text);
       text-align: center;
       line-height: 1.25;
       text-shadow: 0 0 48px rgba(232,133,58,0.35);
-      margin-bottom: 0.9rem;
-      min-height: 3rem;
+      margin-bottom: 0.8rem;
       position: relative;
       z-index: 1;
     }
@@ -161,15 +168,19 @@
     /* Mala ring */
     .ring-wrapper {
       position: relative;
-      width: 340px;
-      height: 340px;
+      width: 300px;
+      height: 300px;
       cursor: pointer;
       user-select: none;
       flex-shrink: 0;
       z-index: 1;
       -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation; /* FIX: eliminates 300ms click delay on Android */
-      will-change: transform;     /* FIX: GPU-composite the tap animation */
+      touch-action: manipulation;
+      will-change: transform;
+      outline: none;
+    }
+    .ring-wrapper:focus-visible {
+      filter: drop-shadow(0 0 8px var(--or-dim));
     }
     .ring-svg {
       width: 100%;
@@ -177,7 +188,7 @@
       overflow: visible;
       display: block;
     }
-    .ring-track { fill: none; stroke: var(--border); stroke-width: 0.8; }
+    .ring-track        { fill: none; stroke: var(--border); stroke-width: 0.8; }
     .bead-unlit        { fill: var(--text-ghost); }
     .bead-lit          { fill: var(--or-bright); }
     .bead-sumeru-unlit { fill: var(--gold-dim); opacity: 0.45; }
@@ -190,24 +201,25 @@
       pointer-events: none;
     }
     .count-number {
-      font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: 3.6rem;
+      font-family: 'Inter', 'Tiro Devanagari Hindi', serif;
+      font-size: 3.4rem;
       font-weight: 700;
       color: var(--or-bright);
       line-height: 1;
       text-shadow: 0 0 24px var(--or-pale);
     }
     .count-denom {
-      font-size: 0.8rem;
+      font-size: 0.95rem;
       color: var(--text-dim);
       margin-top: 0.18rem;
       letter-spacing: 0.08em;
     }
     .tap-cue {
-      font-size: 0.58rem;
+      font-size: 0.9rem;
       color: var(--text-ghost);
-      margin-top: 0.7rem;
-      letter-spacing: 0.18em;
+      margin-top: 0.6rem;
+      letter-spacing: 0.08em;
+      font-weight: 600;
     }
 
     /* Tap animation */
@@ -218,34 +230,37 @@
       100% { transform: scale(1); }
     }
 
-    /* Session stats */
+    /* Session quick-stats row */
     .session-row {
       display: flex;
       align-items: center;
-      gap: 1.6rem;
-      margin-top: 1.1rem;
+      gap: 1.4rem;
+      margin-top: 1rem;
       z-index: 1;
     }
     .s-stat { text-align: center; }
     .s-val {
-      font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: 1.8rem;
+      font-family: 'Inter', 'Tiro Devanagari Hindi', serif;
+      font-size: 1.7rem;
       color: var(--or);
       line-height: 1;
     }
     .s-lbl {
-      font-size: 0.58rem;
+      font-size: 0.8rem;
       color: var(--text-dim);
-      margin-top: 0.22rem;
+      margin-top: 0.2rem;
+      letter-spacing: 0.04em;
     }
-    .s-sep { width: 1px; height: 2rem; background: var(--border-hi); }
+    .s-sep { width: 1px; height: 1.8rem; background: var(--border-hi); }
 
     /* Controls */
     .controls {
       display: flex;
-      gap: 0.55rem;
-      margin-top: 0.95rem;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
       z-index: 1;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     .btn {
       padding: 0.42rem 1.05rem;
@@ -254,11 +269,11 @@
       background: var(--surface);
       color: var(--text-mid);
       font-family: 'Noto Sans Devanagari', sans-serif;
-      font-size: 0.73rem;
+      font-size: 0.88rem;
       cursor: pointer;
       transition: background 0.18s, color 0.18s, border-color 0.18s;
       -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation; /* FIX: eliminates 300ms click delay */
+      touch-action: manipulation;
     }
     .btn:hover { border-color: var(--or-dim); color: var(--text); background: var(--card); }
     .btn.primary {
@@ -268,10 +283,49 @@
     }
     .btn.primary:hover { opacity: 0.85; }
 
-    .kbd-hint { font-size: 0.56rem; color: var(--text-ghost); margin-top: 0.6rem; z-index: 1; }
+    .kbd-hint { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.55rem; z-index: 1; text-align: center; }
 
-    /* ═══ LOG PANEL ═════════════════════════════════════════ */
-    .log-panel {
+    /* ── Manual log — unified behaviour on all screen sizes ── */
+    .manual-log {
+      margin-top: 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(24, 17, 10, 0.8);
+      padding: 0.65rem;
+      width: min(640px, 100%);
+      z-index: 1;
+      display: none;       /* hidden by default on ALL screen sizes */
+    }
+    .manual-log.open { display: block; }
+
+    .manual-title {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      margin-bottom: 0.45rem;
+      letter-spacing: 0.04em;
+    }
+    /* Unified flex-wrap row — same appearance on desktop & mobile */
+    .manual-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      align-items: stretch;
+    }
+    .manual-row .manual-input { flex: 1 1 100px; min-width: 80px; }
+    .manual-row .btn          { flex-shrink: 0; align-self: stretch; }
+
+    .manual-input {
+      border: 1px solid var(--border-hi);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 0.46rem 0.55rem;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 1rem; /* prevents iOS Safari auto-zoom on focus */
+    }
+
+    /* ═══ STATS PANEL ══════════════════════════════════════ */
+    .stats-panel {
       width: 360px;
       flex-shrink: 0;
       display: flex;
@@ -288,9 +342,9 @@
     }
     .period-tab {
       flex: 1;
-      padding: 0.68rem 0.2rem;
+      padding: 0.7rem 0.15rem;
       text-align: center;
-      font-size: 0.7rem;
+      font-size: 0.84rem;
       color: var(--text-dim);
       cursor: pointer;
       border: none;
@@ -300,126 +354,265 @@
       font-family: 'Noto Sans Devanagari', sans-serif;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      letter-spacing: 0.04em;
     }
     .period-tab.active { color: var(--or-bright); border-bottom-color: var(--or); }
 
-    /* Stats cards */
-    .stats-section {
-      padding: 0.85rem;
-      flex-shrink: 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
-    .stat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.65rem 0.85rem;
-    }
-    .sc-name {
-      font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      margin-bottom: 0.3rem;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
-    .sc-malas {
-      font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: 1.65rem;
-      color: var(--or-bright);
-      line-height: 1;
-    }
-    .sc-sub { font-size: 0.6rem; color: var(--text-mid); margin-top: 0.18rem; }
-    .stat-card.total-card {
-      grid-column: 1 / -1;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--card-hi);
-      border-color: var(--border-hi);
-    }
-    .total-val {
-      font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: 1.4rem;
-      color: var(--gold);
-      line-height: 1;
-    }
-    .total-lbl { font-size: 0.58rem; color: var(--text-dim); margin-top: 0.15rem; }
-
-    /* Log list */
-    .log-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 0.85rem;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-    .log-title { font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.14em; text-transform: uppercase; }
-    .btn-xs {
-      padding: 0.18rem 0.6rem;
-      font-size: 0.58rem;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text-ghost);
-      cursor: pointer;
-      font-family: 'Noto Sans Devanagari', sans-serif;
-      transition: color 0.15s, border-color 0.15s;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-    .btn-xs:hover { color: var(--text-dim); border-color: var(--border-hi); }
-
-    .log-list {
+    /* Stats body — scrolls if needed */
+    .stats-body {
       flex: 1;
       overflow-y: auto;
       min-height: 0;
       -webkit-overflow-scrolling: touch;
-    }
-    .log-list::-webkit-scrollbar { width: 3px; }
-    .log-list::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
-
-    /* Date group */
-    .log-date-hdr {
-      padding: 0.42rem 0.85rem 0.2rem;
-      font-size: 0.62rem;
-      color: var(--text-dim);
-      letter-spacing: 0.08em;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: var(--bg);
-      z-index: 2;
-    }
-    .log-name-row {
+      padding: 1.2rem 1.05rem;
       display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      padding: 0.52rem 0.85rem;
-      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      gap: 0.95rem;
     }
-    .entry-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-    .dot-radha     { background: var(--or-bright); box-shadow: 0 0 4px var(--or); }
-    .dot-harivansh { background: var(--gold-dim);  box-shadow: 0 0 4px var(--gold-dim); }
-    .entry-name-text {
-      font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: 0.82rem;
-      color: var(--text);
-      flex: 1;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
-    .entry-stats { text-align: right; flex-shrink: 0; }
-    .entry-malas { font-size: 0.82rem; color: var(--or); }
-    .entry-jap   { font-size: 0.6rem;  color: var(--text-dim); margin-top: 0.06rem; }
+    .stats-body::-webkit-scrollbar { width: 3px; }
+    .stats-body::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
 
-    .log-empty {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: 160px; padding: 2rem;
-      color: var(--text-ghost); font-size: 0.78rem; text-align: center;
-      gap: 0.4rem; line-height: 1.9;
+    /* Hero total block */
+    .hero-block {
+      background: linear-gradient(135deg, rgba(46,30,14,0.95), rgba(30,20,12,0.95));
+      border: 1px solid #4a341a;
+      border-radius: 20px;
+      padding: 1.5rem 1rem 1.3rem;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.4), inset 0 0 36px rgba(232,133,58,0.08);
     }
-    .log-empty .om { font-family: 'Tiro Devanagari Hindi', serif; font-size: 1.8rem; margin-bottom: 0.15rem; }
+    .hero-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(217,118,38,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-cell { text-align: center; position: relative; }
+    .hero-block { min-height: 120px; }
+    .hero-val {
+      font-family: 'Inter', 'Tiro Devanagari Hindi', serif;
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 1;
+      text-shadow: 0 0 24px rgba(245,200,66,0.35);
+    }
+    .hero-lbl {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+      letter-spacing: 0.1em;
+    }
+    .hero-divider { width: 1px; height: 42px; background: var(--border-hi); flex-shrink: 0; }
+
+    /* ═══ PER-NAME CARDS — side-by-side grid (guaranteed equal height) ═══ */
+    /* CSS grid stretch (default) forces both cells to the same height.    */
+    /* No child-level min-height hacks needed.                              */
+    .name-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+    .name-card {
+      border-radius: 16px;
+      padding: 0.85rem 0.75rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Individual card color variants */
+    .name-card-radha {
+      background: linear-gradient(160deg, rgba(38,24,10,0.97), rgba(22,14,7,0.97));
+      border: 1px solid rgba(240,149,53,0.28);
+    }
+    .name-card-harivansh {
+      background: linear-gradient(160deg, rgba(34,26,10,0.97), rgba(20,16,7,0.97));
+      border: 1px solid rgba(196,150,42,0.28);
+    }
+    /* Colour-coded top accent line */
+    .name-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 16px; right: 16px;
+      height: 1.5px;
+      border-radius: 0 0 2px 2px;
+    }
+    .name-card-radha::before {
+      background: linear-gradient(90deg, transparent, var(--or-bright), transparent);
+    }
+    .name-card-harivansh::before {
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    }
+
+    .nc-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.38rem;
+      padding-top: 0.15rem;
+    }
+    .nc-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.32rem;   /* align with first text line */
+    }
+    .dot-radha     { background: var(--or-bright); box-shadow: 0 0 6px var(--or); }
+    .dot-harivansh { background: var(--gold-dim);  box-shadow: 0 0 6px var(--gold-dim); }
+    .nc-name {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.35;
+    }
+
+    /* Stat rows — vertical stack inside each card */
+    .nc-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0.42rem;
+      flex: 1;              /* push stats to fill remaining card height */
+    }
+    .nc-stat {
+      background: rgba(6, 4, 2, 0.52);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.52rem 0.55rem 0.48rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;              /* both stat rows share height equally */
+    }
+    .nc-val {
+      font-family: 'Inter', 'Tiro Devanagari Hindi', serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .nc-val-malas { color: var(--or-bright); }
+    .nc-val-jap   { color: var(--gold); }
+    .nc-lbl {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      margin-top: 0.18rem;
+    }
+    .num-stable {
+      font-variant-numeric: tabular-nums lining-nums;
+      font-feature-settings: "tnum" 1, "lnum" 1;
+    }
+
+    /* Empty state */
+    .stats-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-height: 180px;
+      color: var(--text-ghost);
+      font-size: 0.78rem;
+      text-align: center;
+      gap: 0.5rem;
+      line-height: 1.9;
+    }
+    .stats-empty .om {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 2rem;
+      margin-bottom: 0.1rem;
+      color: var(--text-ghost);
+    }
+
+    /* Stats footer */
+    .stats-footer {
+      flex-shrink: 0;
+      padding: 0.65rem 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+    }
+    .btn-danger {
+      padding: 0.52rem 1.35rem;
+      font-size: 0.88rem;
+      border-radius: 20px;
+      border: 1px solid #7d1d1d;
+      background: linear-gradient(135deg, #6b1515, #8f1e1e);
+      color: #ffe3df;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      transition: transform 0.18s, filter 0.18s, box-shadow 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 8px 18px rgba(122, 20, 20, 0.35);
+    }
+    .btn-danger:hover { transform: translateY(-1px); filter: brightness(1.08); }
+
+    /* Clear-scope menu */
+    .clear-menu {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .clear-menu.open { display: flex; }
+    .clear-card {
+      width: min(420px, 100%);
+      background: var(--card);
+      border: 1px solid var(--border-hi);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+    .clear-options { display: grid; gap: 0.45rem; margin-top: 0.75rem; }
+    .clear-options .btn { width: 100%; text-align: left; }
+
+    /* ═══ CUSTOM CONFIRM / ALERT MODAL ══════════════════════ */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.78);
+      z-index: 1100;
+      padding: 1rem;
+    }
+    .confirm-overlay.open { display: flex; }
+    .confirm-inner {
+      width: min(360px, 100%);
+      background: var(--card);
+      border: 1px solid var(--border-hi);
+      border-radius: 14px;
+      padding: 1.4rem 1.2rem 1.1rem;
+      box-shadow: 0 20px 48px rgba(0,0,0,0.6);
+      animation: modal-in 0.18s ease;
+    }
+    @keyframes modal-in {
+      from { opacity: 0; transform: scale(0.95) translateY(6px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .confirm-msg {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+      white-space: pre-line;
+    }
+    .confirm-btns {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
 
     /* ═══ FLASH ══════════════════════════════════════════════ */
     #flash {
@@ -442,7 +635,6 @@
 
     /* ═══ RESPONSIVE — MOBILE (≤768px) ══════════════════════ */
     @media (max-width: 768px) {
-
       body { overflow: hidden; }
 
       .main {
@@ -450,12 +642,12 @@
         position: relative;
       }
 
-      .japa-panel, .log-panel {
+      /* Both panels occupy the full area; only the active one is shown */
+      .japa-panel, .stats-panel {
         position: absolute;
         inset: 0;
         width: 100%;
         border-right: none;
-        border-top: none;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         display: none !important;
@@ -464,28 +656,37 @@
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        padding: 1rem 1rem 1.2rem;
+        padding: 1rem 1rem 1.4rem;
       }
-      .log-panel { width: 100%; }
+      .stats-panel {
+        width: 100%;
+      }
 
-      .japa-panel.mob-active { display: flex !important; }
-      .log-panel.mob-active  { display: flex !important; }
+      .japa-panel.mob-active   { display: flex !important; }
+      .stats-panel.mob-active  { display: flex !important; }
 
-      .ring-wrapper { width: 268px; height: 268px; }
-
-      .name-display  { font-size: 1.75rem; margin-bottom: 0.65rem; min-height: auto; }
-      .count-number  { font-size: 2.75rem; }
-      .session-row   { gap: 1.1rem; margin-top: 0.85rem; }
-      .s-val         { font-size: 1.45rem; }
-      .controls      { margin-top: 0.7rem; }
+      /* Ring size */
+      .ring-wrapper  { width: 252px; height: 252px; }
+      /* Typography tightening */
+      .name-display  { font-size: 1.7rem;  margin-bottom: 0.6rem; }
+      .count-number  { font-size: 2.6rem; }
+      .session-row   { gap: 1rem;  margin-top: 0.85rem; }
+      .s-val         { font-size: 1.4rem; }
+      .controls      { margin-top: 0.75rem; }
       .kbd-hint      { display: none; }
 
-      .log-panel { flex-direction: column; }
-      .period-tab { font-size: 0.65rem; padding: 0.6rem 0.15rem; }
-      .sc-malas   { font-size: 1.35rem; }
-      .stats-section { padding: 0.7rem; }
-      .stats-grid { gap: 0.4rem; }
+      /* Stats panel mobile */
+      .stats-body    { padding: 0.9rem 0.85rem; }
+      .hero-val      { font-size: 2.3rem; }
+      .nc-val        { font-size: 1.4rem; }
+      .nc-name       { font-size: 0.8rem; }
+      .period-tab    { font-size: 0.76rem; padding: 0.72rem 0.1rem; }
 
+      /* Manual log — full width on mobile */
+      .manual-log    { width: 100%; }
+      .name-tab { min-height: 2.8rem; font-size: 0.82rem; }
+
+      /* Mobile bottom nav */
       .mobile-nav {
         display: flex;
         flex-shrink: 0;
@@ -496,50 +697,49 @@
       }
       .mob-btn {
         flex: 1;
-        padding: 0.7rem 0.5rem 0.55rem;
-        display: flex; flex-direction: column; align-items: center; gap: 0.18rem;
+        padding: 0.68rem 0.5rem 0.52rem;
+        display: flex; flex-direction: column; align-items: center; gap: 0.16rem;
         border: none;
         background: transparent;
         color: var(--text-dim);
         cursor: pointer;
         font-family: 'Noto Sans Devanagari', sans-serif;
-        font-size: 0.65rem;
+        font-size: 0.63rem;
         border-top: 2px solid transparent;
         transition: color 0.18s, border-color 0.18s;
         -webkit-tap-highlight-color: transparent;
         touch-action: manipulation;
       }
       .mob-btn.active { color: var(--or-bright); border-top-color: var(--or); }
-      .mob-icon { font-size: 1.05rem; line-height: 1; }
+      .mob-icon { font-size: 1rem; line-height: 1; }
     }
 
     /* ═══ RESPONSIVE — DESKTOP (>768px) ════════════════════ */
     @media (min-width: 769px) {
       .ring-wrapper {
-        width:  clamp(340px, 46vh, 580px);
-        height: clamp(340px, 46vh, 580px);
+        width:  clamp(300px, 44vh, 520px);
+        height: clamp(300px, 44vh, 520px);
       }
       .japa-panel::before {
         width:  clamp(480px, 66vh, 820px);
         height: clamp(480px, 66vh, 820px);
       }
-      .name-display {
-        font-size:     clamp(2.3rem, 3.4vh, 3.8rem);
-        margin-bottom: clamp(0.9rem, 1.4vh, 1.5rem);
-        min-height:    auto;
-      }
-      .count-number  { font-size: clamp(3.6rem, 5.6vh, 6rem); }
-      .count-denom   { font-size: clamp(0.8rem, 1.2vh, 1.15rem); margin-top: 0.3rem; }
-      .tap-cue       { font-size: clamp(0.58rem, 0.85vh, 0.82rem); margin-top: clamp(0.7rem, 1.1vh, 1.1rem); }
-      .name-tabs     { margin-bottom: clamp(1rem, 1.6vh, 1.7rem); }
-      .name-tab      { font-size: clamp(0.88rem, 1.2vh, 1.1rem); padding: clamp(0.45rem, 0.7vh, 0.7rem) clamp(1.1rem, 1.6vh, 1.6rem); }
-      .session-row   { gap: clamp(1.6rem, 2.6vh, 3rem); margin-top: clamp(1.1rem, 1.8vh, 2rem); }
-      .s-val         { font-size: clamp(1.8rem, 2.8vh, 3.2rem); }
-      .s-lbl         { font-size: clamp(0.58rem, 0.85vh, 0.82rem); margin-top: 0.3rem; }
-      .s-sep         { height: clamp(2rem, 3vh, 3.2rem); }
-      .controls      { gap: clamp(0.55rem, 0.9vh, 0.9rem); margin-top: clamp(0.95rem, 1.5vh, 1.7rem); }
-      .btn           { font-size: clamp(0.73rem, 1.05vh, 1rem); padding: clamp(0.42rem, 0.65vh, 0.65rem) clamp(1.05rem, 1.6vh, 1.6rem); }
-      .kbd-hint      { font-size: clamp(0.56rem, 0.8vh, 0.78rem); margin-top: clamp(0.6rem, 0.95vh, 1rem); }
+      .name-display  { font-size: clamp(2.2rem, 3.2vh, 3.6rem); margin-bottom: clamp(0.8rem, 1.3vh, 1.4rem); }
+      .count-number  { font-size: clamp(3.4rem, 5.2vh, 5.6rem); }
+      .count-denom   { font-size: clamp(0.95rem, 1.3vh, 1.25rem); margin-top: 0.3rem; }
+      .tap-cue       { font-size: clamp(0.9rem, 1.2vh, 1.06rem);  margin-top: clamp(0.6rem, 1vh, 1rem); }
+      .name-tabs     { margin-bottom: clamp(0.85rem, 1.4vh, 1.5rem); }
+      .name-tab      { font-size: clamp(0.9rem, 1.12vh, 1.02rem); padding: clamp(0.45rem, 0.65vh, 0.65rem) clamp(0.8rem, 1vh, 1.05rem); }
+      .session-row   { gap: clamp(1.4rem, 2.4vh, 2.8rem); margin-top: clamp(1rem, 1.6vh, 1.8rem); }
+      .s-val         { font-size: clamp(1.7rem, 2.6vh, 3rem); }
+      .s-lbl         { font-size: clamp(0.8rem, 1vh, 0.95rem); margin-top: 0.28rem; }
+      .s-sep         { height: clamp(1.8rem, 2.8vh, 3rem); }
+      .controls      { gap: clamp(0.5rem, 0.8vh, 0.85rem); margin-top: clamp(0.85rem, 1.3vh, 1.5rem); }
+      .btn           { font-size: clamp(0.88rem, 1.15vh, 1.05rem); padding: clamp(0.42rem, 0.62vh, 0.62rem) clamp(1.05rem, 1.5vh, 1.5rem); }
+      .kbd-hint      { font-size: clamp(0.72rem, 0.9vh, 0.88rem); margin-top: clamp(0.55rem, 0.85vh, 0.95rem); }
+      /* Bigger hero on tall screens */
+      .hero-val      { font-size: clamp(2.8rem, 4.2vh, 4.8rem); }
+      .stats-panel   { width: clamp(340px, 30vw, 430px); }
     }
 
     * { scrollbar-width: thin; scrollbar-color: var(--border-hi) transparent; }
@@ -549,7 +749,6 @@
 
 <header>
   <div class="hdr-title">॥ नाम जप ॥</div>
-  <div class="hdr-sub">राधा वल्लभ सम्प्रदाय</div>
 </header>
 
 <div class="main" id="mainArea">
@@ -559,51 +758,67 @@
 
     <div class="name-tabs">
       <button class="name-tab active" id="tab-radha"     onclick="selectName('radha')">राधा</button>
-      <button class="name-tab"        id="tab-harivansh" onclick="selectName('harivansh')">राधा वल्लभ श्री हरिवंश</button>
+      <button class="name-tab" id="tab-harivansh" onclick="selectName('harivansh')">राधा वल्लभ श्री हरिवंश</button>
     </div>
 
     <div class="name-display" id="nameDisplay">राधा</div>
 
-    <div class="ring-wrapper" id="ringWrapper" onclick="countJapa()"
+    <div class="ring-wrapper" id="ringWrapper"
          role="button" tabindex="0" aria-label="जप करें">
       <svg class="ring-svg" id="malaSvg" viewBox="-155 -155 310 310" xmlns="http://www.w3.org/2000/svg">
         <circle class="ring-track" cx="0" cy="0" r="136"/>
       </svg>
       <div class="ring-center">
-        <div class="count-number" id="countNum">0</div>
+        <div class="count-number num-stable" id="countNum">0</div>
         <div class="count-denom" id="countDenom">/ 108</div>
-        <div class="tap-cue">◉ TAP</div>
+        <div class="tap-cue">◉ यहाँ स्पर्श करें</div>
       </div>
     </div>
 
     <div class="session-row">
       <div class="s-stat">
-        <div class="s-val" id="todayMalas">0</div>
+        <div class="s-val num-stable" id="todayMalas">0</div>
         <div class="s-lbl">आज माला</div>
       </div>
       <div class="s-sep"></div>
       <div class="s-stat">
-        <div class="s-val" id="todayCount">0</div>
+        <div class="s-val num-stable" id="todayCount">0</div>
         <div class="s-lbl">आज जप</div>
       </div>
       <div class="s-sep"></div>
       <div class="s-stat">
-        <div class="s-val" id="allMalas">0</div>
+        <div class="s-val num-stable" id="allMalas">0</div>
         <div class="s-lbl">कुल माला</div>
       </div>
     </div>
 
     <div class="controls">
-      <button class="btn"         onclick="undoCount()">← पिछला</button>
-      <button class="btn primary" onclick="savePartial()">सहेजें</button>
-      <button class="btn"         onclick="resetCurrent()">रीसेट</button>
+      <button class="btn" onclick="undoCount()">← पिछला</button>
+      <button class="btn" onclick="resetCurrent()">रीसेट</button>
+      <button class="btn" id="manualToggleBtn" onclick="toggleManualLog()">+ मैनुअल जोड़ें</button>
     </div>
 
-    <div class="kbd-hint">Space — एक जप &nbsp;·&nbsp; S — सहेजें &nbsp;·&nbsp; Z — पिछला</div>
+    <div class="manual-log" id="manualLog">
+      <div class="manual-title">मैनुअल लॉग जोड़ें</div>
+      <div class="manual-row">
+        <select id="manualName" class="manual-input">
+          <option value="radha">राधा</option>
+          <option value="harivansh">राधा वल्लभ श्री हरिवंश</option>
+        </select>
+        <select id="manualType" class="manual-input">
+          <option value="japa">जप</option>
+          <option value="mala">माला</option>
+        </select>
+        <input id="manualValue" class="manual-input" type="number" min="1" step="1" placeholder="संख्या">
+        <button class="btn primary" onclick="addManualLog()">जोड़ें</button>
+      </div>
+    </div>
+
+    <div class="kbd-hint">स्पेस — एक जप &nbsp;·&nbsp; Z — पिछला &nbsp;·&nbsp; R — रीसेट</div>
   </div>
 
-  <!-- ══════════ LOG PANEL ══════════ -->
-  <div class="log-panel" id="logPanel">
+  <!-- ══════════ STATS PANEL ══════════ -->
+  <div class="stats-panel" id="statsPanel">
 
     <div class="period-tabs">
       <button class="period-tab active" id="pt-today" onclick="setPeriod('today')">आज</button>
@@ -612,31 +827,52 @@
       <button class="period-tab"        id="pt-all"   onclick="setPeriod('all')">सर्वकाल</button>
     </div>
 
-    <div class="stats-section">
-      <div class="stats-grid" id="statsGrid"></div>
+    <div class="stats-body" id="statsBody"></div>
+
+    <div class="stats-footer">
+      <button class="btn-danger" onclick="openClearMenu()">डेटा साफ़ करें</button>
     </div>
 
-    <div class="log-header">
-      <span class="log-title">जप लॉग</span>
-      <button class="btn-xs" onclick="clearAll()">सब हटाएँ</button>
-    </div>
-
-    <div class="log-list" id="logList"></div>
   </div>
 
 </div><!-- .main -->
 
-<!-- Mobile bottom nav (hidden on desktop) -->
+<!-- Mobile bottom nav -->
 <nav class="mobile-nav" id="mobileNav">
-  <button class="mob-btn active" id="mn-japa" onclick="showMobileTab('japa')">
+  <button class="mob-btn active" id="mn-japa"  onclick="showTab('japa')">
     <span class="mob-icon">📿</span>जप
   </button>
-  <button class="mob-btn" id="mn-log" onclick="showMobileTab('log')">
-    <span class="mob-icon">📊</span>लॉग
+  <button class="mob-btn"        id="mn-stats" onclick="showTab('stats')">
+    <span class="mob-icon">✦</span>आँकड़े
   </button>
 </nav>
 
 <div id="flash"></div>
+
+<!-- Clear-scope overlay -->
+<div class="clear-menu" id="clearMenu" onclick="closeClearMenu(event)">
+  <div class="clear-card">
+    <div class="manual-title">कौन-सा डेटा हटाना है?</div>
+    <div class="clear-options">
+      <button class="btn" onclick="clearData('today')">आज का डेटा हटाएँ</button>
+      <button class="btn" onclick="clearData('week')">साप्ताहिक डेटा हटाएँ</button>
+      <button class="btn" onclick="clearData('month')">मासिक डेटा हटाएँ</button>
+      <button class="btn btn-danger" onclick="clearData('all')">सर्वकाल डेटा हटाएँ</button>
+      <button class="btn" onclick="closeClearMenu()">रद्द करें</button>
+    </div>
+  </div>
+</div>
+
+<!-- Custom confirm / alert modal (replaces browser confirm/alert) -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-inner">
+    <div class="confirm-msg" id="confirmMsg"></div>
+    <div class="confirm-btns">
+      <button class="btn"     id="confirmCancelBtn" onclick="_doModalCancel()">रद्द करें</button>
+      <button class="btn primary" id="confirmOkBtn" onclick="_doModalOk()">ठीक है</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ════════════════════════════════════════════════════════════
@@ -646,19 +882,19 @@ const NAMES = {
   radha:     'राधा',
   harivansh: 'राधा वल्लभ श्री हरिवंश'
 };
-const MALA_SIZE = 108;
-const STORE_KEY = 'jpDailyV3';
-const BEAD_KEY  = 'jpBead';     // FIX: persists in-progress bead count
-const NAME_KEY  = 'jpActive';   // FIX: persists active name — prevents wrong-name restore on reload
-const OLD_KEY   = 'japaEntries_v2';
+const MALA_SIZE   = 108;
+const STORE_KEY   = 'jpDailyV3';
+const BEAD_KEY    = 'jpBead';
+const BEAD_DATE_KEY = 'jpBeadDate';   // guards against cross-day bead leak
+const NAME_KEY    = 'jpActive';
+const OLD_KEY     = 'japaEntries_v2';
 
-let activeName   = 'radha';
-let beadCount    = 0;
-let activePeriod = 'today';
+let activeName    = 'radha';
+let beadCount     = 0;
+let activePeriod  = 'today';
 
 // ════════════════════════════════════════════════════════════
-// STORAGE — in-memory cache so each action = one localStorage read
-// FIX: was calling getLog() 2-3x per tap with no caching
+// STORAGE — in-memory cache (one parse per action)
 // ════════════════════════════════════════════════════════════
 let _cache = null;
 
@@ -668,28 +904,68 @@ function getLog() {
   catch { _cache = {}; }
   return _cache;
 }
-
 function setLog(data) {
   _cache = data;
   localStorage.setItem(STORE_KEY, JSON.stringify(data));
 }
 
-// FIX: persist beadCount so a page reload / browser kill mid-mala loses nothing
-function saveBead() {
-  localStorage.setItem(BEAD_KEY, beadCount);
+function calcMalasFromCount(count) {
+  return Math.floor(Math.max(0, Number(count) || 0) / MALA_SIZE);
 }
 
-function addJapa(name, count, malas) {
+function normalizeDayRecord(dayRecord) {
+  for (const n of ['radha', 'harivansh']) {
+    if (!dayRecord[n]) dayRecord[n] = { count: 0, malas: 0 };
+    dayRecord[n].count = Math.max(0, Number(dayRecord[n].count) || 0);
+    dayRecord[n].malas = calcMalasFromCount(dayRecord[n].count);
+  }
+}
+
+function normalizeLogData() {
+  const data = getLog();
+  let changed = false;
+  for (const dayRecord of Object.values(data)) {
+    const beforeRC = dayRecord?.radha?.count;
+    const beforeHC = dayRecord?.harivansh?.count;
+    const beforeRM = dayRecord?.radha?.malas;
+    const beforeHM = dayRecord?.harivansh?.malas;
+    normalizeDayRecord(dayRecord);
+    // BUG FIX: also check malas so stale mala values get corrected
+    if (beforeRC !== dayRecord.radha.count     ||
+        beforeHC !== dayRecord.harivansh.count ||
+        beforeRM !== dayRecord.radha.malas     ||
+        beforeHM !== dayRecord.harivansh.malas) changed = true;
+  }
+  if (changed) setLog(data);
+}
+
+// Persist ring state so a reload mid-mala loses nothing.
+// We also store today's date so a cross-midnight reload discards stale beads.
+function saveBead() {
+  localStorage.setItem(BEAD_KEY, beadCount);
+  localStorage.setItem(BEAD_DATE_KEY, todayStr());
+}
+
+function addJapa(name, count) {
   const data = getLog();
   const d    = todayStr();
   if (!data[d])        data[d]        = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
   if (!data[d][name])  data[d][name]  = { count:0, malas:0 };
   data[d][name].count += count;
-  data[d][name].malas += malas;
+  data[d][name].malas = calcMalasFromCount(data[d][name].count);
   setLog(data);
 }
 
-// Migrate old per-entry format (v2) if present
+function applyJapaDelta(date, name, countDelta) {
+  const data = getLog();
+  if (!data[date]) data[date] = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
+  if (!data[date][name]) data[date][name] = { count:0, malas:0 };
+  data[date][name].count = Math.max(0, (Number(data[date][name].count) || 0) + countDelta);
+  data[date][name].malas = calcMalasFromCount(data[date][name].count);
+  setLog(data);
+}
+
+// Migrate old per-entry v2 format if present
 function migrateV2() {
   const raw = localStorage.getItem(OLD_KEY);
   if (!raw) return;
@@ -701,7 +977,7 @@ function migrateV2() {
       if (!data[e.date])         data[e.date]         = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
       if (!data[e.date][e.name]) data[e.date][e.name] = { count:0, malas:0 };
       data[e.date][e.name].count += (e.count || 0);
-      data[e.date][e.name].malas += (e.malas || 0);
+      data[e.date][e.name].malas = calcMalasFromCount(data[e.date][e.name].count);
     }
     setLog(data);
     localStorage.removeItem(OLD_KEY);
@@ -720,7 +996,7 @@ function todayStr() {
 function weekStartStr() {
   const d   = new Date();
   const dow = d.getDay();
-  const off = (dow === 0) ? -6 : 1 - dow;   // Monday-based week
+  const off = (dow === 0) ? -6 : 1 - dow;
   const m   = new Date(d.getFullYear(), d.getMonth(), d.getDate() + off);
   return `${m.getFullYear()}-${pad(m.getMonth()+1)}-${pad(m.getDate())}`;
 }
@@ -729,29 +1005,13 @@ function monthStartStr() {
   return `${d.getFullYear()}-${pad(d.getMonth()+1)}-01`;
 }
 
-function dateLabel(dateStr) {
-  const [y, m, d] = dateStr.split('-').map(Number);
-  const today     = todayStr();
-  if (dateStr === today) return 'आज';
-  const yy   = new Date();
-  yy.setDate(yy.getDate() - 1);
-  const yStr = `${yy.getFullYear()}-${pad(yy.getMonth()+1)}-${pad(yy.getDate())}`;
-  if (dateStr === yStr) return 'कल';
-  return new Date(y, m-1, d).toLocaleDateString('hi-IN', {
-    day: 'numeric', month: 'short',
-    ...(y !== new Date().getFullYear() && { year: 'numeric' })
-  });
-}
-
 // ════════════════════════════════════════════════════════════
 // AGGREGATION
-// FIX: date bounds computed once outside loop, not per-iteration
 // ════════════════════════════════════════════════════════════
 function getStats() {
   const data   = getLog();
   const r      = { radha:{count:0,malas:0}, harivansh:{count:0,malas:0} };
   const todayS = todayStr();
-  // Compute boundary string once — avoids new Date() per loop iteration
   const boundS = activePeriod === 'week'  ? weekStartStr()
                : activePeriod === 'month' ? monthStartStr()
                : null;
@@ -760,14 +1020,29 @@ function getStats() {
     if (activePeriod === 'today' && date !== todayS) continue;
     if (boundS !== null && date < boundS) continue;
     for (const n of ['radha', 'harivansh']) {
-      if (rec[n]) { r[n].count += rec[n].count; r[n].malas += rec[n].malas; }
+      if (rec[n]) {
+        r[n].count += (Number(rec[n].count) || 0);
+      }
     }
+  }
+
+  const includesToday = activePeriod === 'today'
+    || (boundS !== null && todayS >= boundS)
+    || activePeriod === 'all';
+  if (includesToday && beadCount > 0) {
+    r[activeName].count += beadCount;
+  }
+
+  // BUG FIX: recalculate malas from total count, not accumulated daily malas.
+  // Daily accumulation under-counts when partial-day jap spans two days together.
+  for (const n of ['radha', 'harivansh']) {
+    r[n].malas = calcMalasFromCount(r[n].count);
   }
   return r;
 }
 
 // ════════════════════════════════════════════════════════════
-// MALA RING — 108 SVG beads, built once, updated by setAttribute
+// MALA RING — 108 SVG beads built once, updated by setAttribute
 // ════════════════════════════════════════════════════════════
 const beadEls = [];
 
@@ -794,80 +1069,180 @@ function refreshBeads() {
   for (let i = 0; i < MALA_SIZE; i++) {
     const { el, sumeru } = beadEls[i];
     const lit = i < beadCount;
-    el.setAttribute('class', `jpb ${sumeru ? (lit ? 'bead-sumeru-lit' : 'bead-sumeru-unlit') : (lit ? 'bead-lit' : 'bead-unlit')}`);
+    el.setAttribute('class', `jpb ${sumeru
+      ? (lit ? 'bead-sumeru-lit' : 'bead-sumeru-unlit')
+      : (lit ? 'bead-lit'       : 'bead-unlit')}`);
   }
 }
 
 // ════════════════════════════════════════════════════════════
-// DISPLAY REFRESH — single getLog() call via cache
-// FIX: was calling getTodayEntry + getAllMalas each separately (2 parses)
+// DISPLAY REFRESH
 // ════════════════════════════════════════════════════════════
 function refreshDisplay() {
   document.getElementById('countNum').textContent = beadCount;
   refreshBeads();
 
-  const data    = getLog();          // single cache hit
+  const data    = getLog();
   const today   = todayStr();
   const td      = (data[today] || {})[activeName] || { count:0, malas:0 };
-  let   allMalas = 0;
+  // Sum all stored counts first, then floor-divide once (fixes per-day summation bug).
+  // Also fold in live beadCount so allMalas stays consistent with todayMalas and the stats panel.
+  let totalAllCount = 0;
   for (const rec of Object.values(data)) {
-    if (rec[activeName]) allMalas += rec[activeName].malas;
+    if (rec[activeName]) totalAllCount += (Number(rec[activeName].count) || 0);
   }
+  const allMalas = calcMalasFromCount(totalAllCount + beadCount);
 
-  document.getElementById('todayMalas').textContent = fmt(td.malas);
+  document.getElementById('todayMalas').textContent = fmt(calcMalasFromCount(td.count + beadCount));
   document.getElementById('todayCount').textContent = fmt(td.count + beadCount);
   document.getElementById('allMalas').textContent   = fmt(allMalas);
 }
 
 // ════════════════════════════════════════════════════════════
+// STATS RENDER
+// ════════════════════════════════════════════════════════════
+function renderStats() {
+  const s   = getStats();
+  const dr  = { malas: s.radha.malas,     count: s.radha.count };
+  const dh  = { malas: s.harivansh.malas, count: s.harivansh.count };
+  const totalMalas = dr.malas + dh.malas;
+  const totalCount = dr.count + dh.count;
+
+  const hasAny = totalCount > 0;
+
+  if (!hasAny) {
+    document.getElementById('statsBody').innerHTML = `
+      <div class="stats-empty">
+        <div class="om">॥</div>
+        अभी कोई जप नहीं<br>माला आरम्भ करें
+        <span style="font-size:0.56rem;color:var(--text-ghost);margin-top:0.2rem">राधे राधे</span>
+      </div>`;
+    return;
+  }
+
+  document.getElementById('statsBody').innerHTML = `
+    <div class="hero-block">
+      <div class="hero-cell">
+        <div class="hero-val num-stable">${fmt(totalMalas)}</div>
+        <div class="hero-lbl">कुल माला</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-cell">
+        <div class="hero-val num-stable">${fmt(totalCount)}</div>
+        <div class="hero-lbl">कुल जप</div>
+      </div>
+    </div>
+
+    <div class="name-cards">
+      <div class="name-card name-card-radha">
+        <div class="nc-header">
+          <div class="nc-dot dot-radha"></div>
+          <div class="nc-name">राधा</div>
+        </div>
+        <div class="nc-stats">
+          <div class="nc-stat">
+            <div class="nc-val nc-val-malas num-stable">${fmt(dr.malas)}</div>
+            <div class="nc-lbl">माला</div>
+          </div>
+          <div class="nc-stat">
+            <div class="nc-val nc-val-jap num-stable">${fmt(dr.count)}</div>
+            <div class="nc-lbl">जप</div>
+          </div>
+        </div>
+      </div>
+      <div class="name-card name-card-harivansh">
+        <div class="nc-header">
+          <div class="nc-dot dot-harivansh"></div>
+          <div class="nc-name">राधा वल्लभ श्री हरिवंश</div>
+        </div>
+        <div class="nc-stats">
+          <div class="nc-stat">
+            <div class="nc-val nc-val-malas num-stable">${fmt(dh.malas)}</div>
+            <div class="nc-lbl">माला</div>
+          </div>
+          <div class="nc-stat">
+            <div class="nc-val nc-val-jap num-stable">${fmt(dh.count)}</div>
+            <div class="nc-lbl">जप</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// CUSTOM MODAL — replaces all browser confirm() / alert()
+// ════════════════════════════════════════════════════════════
+let _modalResolve = null;
+
+function showModal(msg, { ok = 'ठीक है', cancel = 'रद्द करें', danger = false, alertOnly = false } = {}) {
+  return new Promise(resolve => {
+    _modalResolve = resolve;
+    document.getElementById('confirmMsg').textContent = msg;
+    const okBtn     = document.getElementById('confirmOkBtn');
+    const cancelBtn = document.getElementById('confirmCancelBtn');
+    okBtn.textContent    = ok;
+    okBtn.className      = danger ? 'btn btn-danger' : 'btn primary';
+    cancelBtn.textContent = cancel;
+    cancelBtn.style.display = alertOnly ? 'none' : '';
+    document.getElementById('confirmOverlay').classList.add('open');
+  });
+}
+
+function _doModalOk() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  document.getElementById('confirmCancelBtn').style.display = '';
+  if (_modalResolve) { _modalResolve(true);  _modalResolve = null; }
+}
+
+function _doModalCancel() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  document.getElementById('confirmCancelBtn').style.display = '';
+  if (_modalResolve) { _modalResolve(false); _modalResolve = null; }
+}
+
+// Close confirm modal on backdrop click
+document.getElementById('confirmOverlay').addEventListener('click', e => {
+  if (e.target.id === 'confirmOverlay') _doModalCancel();
+});
+
+// ════════════════════════════════════════════════════════════
 // JAPA ACTIONS
-// FIX: renderStats() removed from hot path — only called on mala
-//      complete (when counts actually change in the stats grid)
 // ════════════════════════════════════════════════════════════
 function countJapa() {
   beadCount++;
-  saveBead();  // FIX: persist immediately — survives reload
+  saveBead();
 
-  // Tap animation — remove, force reflow, re-add
+  // Tap animation
   const rw = document.getElementById('ringWrapper');
   rw.classList.remove('ring-tapped');
   void rw.offsetWidth;
   rw.classList.add('ring-tapped');
 
   if (beadCount >= MALA_SIZE) {
-    addJapa(activeName, MALA_SIZE, 1);
+    addJapa(activeName, MALA_SIZE);
     beadCount = 0;
     saveBead();
     doFlash();
-    renderLog();
-    renderStats();  // stats grid only rebuilds on mala complete
   }
 
   refreshDisplay();
+  renderStats();
 }
 
-function undoCount() {
+function undoCount(step = 1) {
   if (beadCount <= 0) return;
-  beadCount--;
+  beadCount = Math.max(0, beadCount - Math.max(1, step));
   saveBead();
   refreshDisplay();
+  renderStats();
 }
 
-function savePartial() {
-  if (beadCount <= 0) return;
-  addJapa(activeName, beadCount, 0);
+async function resetCurrent() {
+  if (beadCount > 0 && !await showModal('वर्तमान जप गणना रीसेट करें?', { ok: 'रीसेट करें', danger: true })) return;
   beadCount = 0;
   saveBead();
   refreshDisplay();
   renderStats();
-  renderLog();
-}
-
-function resetCurrent() {
-  if (beadCount > 0 && !confirm('वर्तमान जप गणना रीसेट करें?')) return;
-  beadCount = 0;
-  saveBead();
-  refreshDisplay();
 }
 
 function doFlash() {
@@ -880,13 +1255,13 @@ function doFlash() {
 // ════════════════════════════════════════════════════════════
 // NAME SELECTION
 // ════════════════════════════════════════════════════════════
-function selectName(name) {
+async function selectName(name) {
   if (activeName === name) return;
-  if (beadCount > 0 && !confirm('नाम बदलने पर वर्तमान गणना रीसेट होगी। जारी रखें?')) return;
+  if (beadCount > 0 && !await showModal('नाम बदलने पर वर्तमान गणना रीसेट होगी। जारी रखें?')) return;
   activeName = name;
   beadCount  = 0;
   saveBead();
-  localStorage.setItem(NAME_KEY, name);  // FIX: persist so reload restores correct name
+  localStorage.setItem(NAME_KEY, name);
   document.getElementById('nameDisplay').textContent = NAMES[name];
   document.querySelectorAll('.name-tab').forEach(t => t.classList.remove('active'));
   document.getElementById(`tab-${name}`).classList.add('active');
@@ -905,128 +1280,114 @@ function setPeriod(p) {
 }
 
 // ════════════════════════════════════════════════════════════
-// STATS RENDER
+// CLEAR DATA
 // ════════════════════════════════════════════════════════════
-function renderStats() {
-  const s   = getStats();
-  const tot = { malas: s.radha.malas + s.harivansh.malas, count: s.radha.count + s.harivansh.count };
-
-  document.getElementById('statsGrid').innerHTML = `
-    <div class="stat-card">
-      <div class="sc-name">राधा</div>
-      <div class="sc-malas">${fmt(s.radha.malas)}</div>
-      <div class="sc-sub">${fmt(s.radha.count)} जप</div>
-    </div>
-    <div class="stat-card">
-      <div class="sc-name">राधा वल्लभ श्री हरिवंश</div>
-      <div class="sc-malas">${fmt(s.harivansh.malas)}</div>
-      <div class="sc-sub">${fmt(s.harivansh.count)} जप</div>
-    </div>
-    <div class="stat-card total-card">
-      <div>
-        <div class="total-val">${fmt(tot.malas)}</div>
-        <div class="total-lbl">कुल माला</div>
-      </div>
-      <div style="text-align:right">
-        <div class="total-val">${fmt(tot.count)}</div>
-        <div class="total-lbl">कुल जप</div>
-      </div>
-    </div>`;
+function openClearMenu() {
+  document.getElementById('clearMenu').classList.add('open');
 }
 
-// ════════════════════════════════════════════════════════════
-// LOG RENDER — Daily Grouped View
-// ════════════════════════════════════════════════════════════
-function renderLog() {
-  const data  = getLog();
-  const dates = Object.keys(data).sort((a, b) => b.localeCompare(a));
-  const list  = document.getElementById('logList');
+function closeClearMenu(e) {
+  if (e && e.target.id !== 'clearMenu') return;
+  document.getElementById('clearMenu').classList.remove('open');
+}
 
-  if (dates.length === 0) {
-    list.innerHTML = `<div class="log-empty">
-      <div class="om">॥</div>
-      अभी कोई जप नहीं<br>माला आरम्भ करें
-      <span style="font-size:0.58rem;color:var(--text-ghost)">राधे राधे</span>
-    </div>`;
-    return;
-  }
+async function clearData(scope) {
+  const prompts = {
+    today: 'आज का डेटा हटाएँ?\nयह क्रिया वापस नहीं होगी।',
+    week:  'इस सप्ताह का डेटा हटाएँ?\nयह क्रिया वापस नहीं होगी।',
+    month: 'इस माह का डेटा हटाएँ?\nयह क्रिया वापस नहीं होगी।',
+    all:   'सम्पूर्ण सर्वकाल डेटा हटाएँ?\nयह क्रिया वापस नहीं होगी।'
+  };
+  if (!await showModal(prompts[scope], { ok: 'हटाएँ', danger: true })) return;
 
-  const chunks = [];
-  for (const date of dates) {
-    const rec  = data[date];
-    const rows = [];
+  const data       = getLog();
+  const today      = todayStr();
+  const weekStart  = weekStartStr();
+  const monthStart = monthStartStr();
 
-    for (const name of ['radha', 'harivansh']) {
-      const nd = rec[name];
-      if (!nd || (nd.count === 0 && nd.malas === 0)) continue;
-
-      const extra     = Math.max(0, nd.count - nd.malas * MALA_SIZE);  // FIX: guard against negative extra on corrupted data
-      const malaLabel = nd.malas > 0
-        ? `${fmt(nd.malas)} माला${extra > 0 ? ' + ' + fmt(extra) + ' जप' : ''}`
-        : `${fmt(nd.count)} जप`;
-
-      rows.push(`<div class="log-name-row">
-        <div class="entry-dot ${name === 'radha' ? 'dot-radha' : 'dot-harivansh'}"></div>
-        <div class="entry-name-text">${NAMES[name]}</div>
-        <div class="entry-stats">
-          <div class="entry-malas">${malaLabel}</div>
-          <div class="entry-jap">${fmt(nd.count)} जप कुल</div>
-        </div>
-      </div>`);
+  if (scope === 'all') {
+    setLog({});
+    beadCount = 0;
+    saveBead();
+  } else {
+    let deletedToday = false;
+    for (const date of Object.keys(data)) {
+      const inRange = scope === 'today' ? date === today
+        : scope === 'week'  ? date >= weekStart
+        : date >= monthStart;
+      if (inRange) {
+        if (date === today) deletedToday = true;
+        delete data[date];
+      }
     }
-
-    if (rows.length === 0) continue;
-    chunks.push(`<div class="log-date-group">
-      <div class="log-date-hdr">${dateLabel(date)}</div>
-      ${rows.join('')}
-    </div>`);
+    setLog(data);
+    // BUG FIX: also reset beadCount when today's data is wiped via week/month clear
+    if (deletedToday) {
+      beadCount = 0;
+      saveBead();
+    }
   }
-
-  list.innerHTML = chunks.length
-    ? chunks.join('')
-    : `<div class="log-empty"><div class="om">॥</div>कोई जप नहीं</div>`;
-}
-
-function clearAll() {
-  if (!confirm('सम्पूर्ण जप लॉग हटाएँ?\nयह क्रिया वापस नहीं होगी।')) return;
-  setLog({});
-  beadCount = 0;
-  saveBead();
+  closeClearMenu();
   refreshDisplay();
   renderStats();
-  renderLog();
+}
+
+async function addManualLog() {
+  const name  = document.getElementById('manualName').value;
+  const type  = document.getElementById('manualType').value;
+  const value = parseInt(document.getElementById('manualValue').value, 10);
+  if (!Number.isFinite(value) || value <= 0) {
+    await showModal('कृपया सही संख्या लिखें।', { alertOnly: true });
+    return;
+  }
+  const countToAdd = type === 'mala' ? value * MALA_SIZE : value;
+  applyJapaDelta(todayStr(), name, countToAdd);
+  document.getElementById('manualValue').value = '';
+  // Close log on both desktop and mobile
+  document.getElementById('manualLog').classList.remove('open');
+  refreshDisplay();
+  renderStats();
+}
+
+// FIX: works on both desktop and mobile — no screen-width guard
+function toggleManualLog() {
+  document.getElementById('manualLog').classList.toggle('open');
 }
 
 // ════════════════════════════════════════════════════════════
 // MOBILE TAB SWITCHING
 // ════════════════════════════════════════════════════════════
-function showMobileTab(tab) {
+function showTab(tab) {
   const isJapa = (tab === 'japa');
-  document.getElementById('japaPanel').classList.toggle('mob-active', isJapa);
-  document.getElementById('logPanel').classList.toggle('mob-active',  !isJapa);
+  document.getElementById('japaPanel').classList.toggle('mob-active',  isJapa);
+  document.getElementById('statsPanel').classList.toggle('mob-active', !isJapa);
   document.getElementById('mn-japa').classList.toggle('active',  isJapa);
-  document.getElementById('mn-log').classList.toggle('active',   !isJapa);
+  document.getElementById('mn-stats').classList.toggle('active', !isJapa);
 }
 
 // ════════════════════════════════════════════════════════════
-// RESPONSIVE
+// RESPONSIVE — show correct layout on resize
 // ════════════════════════════════════════════════════════════
 function applyLayout() {
   const mobile = window.innerWidth <= 768;
-  const jp     = document.getElementById('japaPanel');
-  const lp     = document.getElementById('logPanel');
+  const jp  = document.getElementById('japaPanel');
+  const sp  = document.getElementById('statsPanel');
   if (mobile) {
-    if (!jp.classList.contains('mob-active') && !lp.classList.contains('mob-active')) {
+    if (!jp.classList.contains('mob-active') && !sp.classList.contains('mob-active')) {
       jp.classList.add('mob-active');
       document.getElementById('mn-japa').classList.add('active');
+      document.getElementById('mn-stats').classList.remove('active');
     }
   } else {
     jp.classList.remove('mob-active');
-    lp.classList.remove('mob-active');
+    sp.classList.remove('mob-active');
+    // Close manual log when switching back to desktop layout
+    document.getElementById('manualLog').classList.remove('open');
+    document.getElementById('mn-japa').classList.add('active');
+    document.getElementById('mn-stats').classList.remove('active');
   }
 }
 
-// FIX: debounced — was firing on every pixel of resize
 let _resizeTimer;
 window.addEventListener('resize', () => {
   clearTimeout(_resizeTimer);
@@ -1035,37 +1396,56 @@ window.addEventListener('resize', () => {
 
 // ════════════════════════════════════════════════════════════
 // KEYBOARD SHORTCUTS
-// FIX: added Z for undo, updated kbd-hint in HTML
 // ════════════════════════════════════════════════════════════
 document.addEventListener('keydown', e => {
   if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
-  if (e.target.tagName === 'BUTTON') return;  // FIX: Space on focused button would fire onclick AND countJapa — bail here
-  if (e.code === 'Space')                      { e.preventDefault(); countJapa(); }
-  if (e.key === 's' || e.key === 'S')          { e.preventDefault(); savePartial(); }
-  if (e.key === 'z' || e.key === 'Z')          { e.preventDefault(); undoCount(); }
+  if (e.target.tagName === 'BUTTON') return;
+  // Don't process shortcuts while a modal / clear-menu is open
+  if (document.getElementById('confirmOverlay').classList.contains('open')) return;
+  if (document.getElementById('clearMenu').classList.contains('open'))      return;
+  if (e.code === 'Space')             { e.preventDefault(); countJapa(); }
+  if (e.key === 'z' || e.key === 'Z') { e.preventDefault(); undoCount(); }
+  if (e.key === 'r' || e.key === 'R') { e.preventDefault(); resetCurrent(); }
+});
+
+// ── Ring interaction — click + keyboard ─────────────────────
+// Problem: ring has role="button" + tabindex="0". After a tap gives it focus,
+// pressing Space fires our keydown handler AND a browser-synthetic click event,
+// causing double-count. Fix: a flag marks when keydown already handled the press
+// so the click listener skips it.
+let _ringKeyHandled = false;
+
+document.getElementById('ringWrapper').addEventListener('click', () => {
+  if (_ringKeyHandled) return;   // synthetic click from Space/Enter — already counted
+  countJapa();
+});
+
+document.getElementById('ringWrapper').addEventListener('keydown', e => {
+  if (e.code === 'Space' || e.code === 'Enter') {
+    e.preventDefault();          // try to suppress synthetic click (not reliable everywhere)
+    e.stopPropagation();         // stop global document handler from also firing
+    _ringKeyHandled = true;
+    countJapa();
+    setTimeout(() => { _ringKeyHandled = false; }, 50);
+  }
 });
 
 // ════════════════════════════════════════════════════════════
 // UTILITY
-// FIX: stricter guard — handles NaN and undefined explicitly
 // ════════════════════════════════════════════════════════════
 function fmt(n) {
   const num = Number(n);
   if (n == null || n === '' || Number.isNaN(num)) return '0';
-  return num.toLocaleString('en-IN');
+  return num.toLocaleString('hi-IN');
 }
 
-// FIX: ring is now focusable (tabindex=0) — wire up Enter/Space so keyboard users can count
-document.getElementById('ringWrapper').addEventListener('keydown', e => {
-  if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); countJapa(); }
-});
-
 // ════════════════════════════════════════════════════════════
-// SERVICE WORKER — PWA install support
+// SERVICE WORKER
 // ════════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/naam-japa-counter/sw.js', { scope: '/naam-japa-counter/' }).catch(() => {});
+    const basePath = location.pathname.includes('/naam-japa-counter/') ? '/naam-japa-counter/' : '/';
+    navigator.serviceWorker.register(`${basePath}sw.js`, { scope: basePath }).catch(() => {});
   });
 }
 
@@ -1073,21 +1453,28 @@ if ('serviceWorker' in navigator) {
 // BOOT
 // ════════════════════════════════════════════════════════════
 migrateV2();
-// FIX: restore active name FIRST — beadCount belongs to whichever name was active,
-//      so we must know the name before showing the count
+normalizeLogData();
 activeName = localStorage.getItem(NAME_KEY) || 'radha';
-beadCount  = Math.min(MALA_SIZE - 1, Math.max(0, parseInt(localStorage.getItem(BEAD_KEY) || '0', 10)));
-// Sync name UI with restored name (was always showing 'राधा' regardless of what was saved)
+
+// Cross-day bead-leak fix: only restore beadCount if it was saved TODAY.
+// Without this, 90 beads from last night would show as today's jap on next-day reload.
+{
+  const savedDate = localStorage.getItem(BEAD_DATE_KEY);
+  beadCount = (savedDate === todayStr())
+    ? Math.min(MALA_SIZE - 1, Math.max(0, parseInt(localStorage.getItem(BEAD_KEY) || '0', 10)))
+    : 0;
+  if (savedDate !== todayStr()) saveBead(); // write today's date + reset count in storage
+}
+
 document.getElementById('nameDisplay').textContent = NAMES[activeName];
 document.querySelectorAll('.name-tab').forEach(t => t.classList.remove('active'));
 document.getElementById(`tab-${activeName}`).classList.add('active');
-// Set count-denom from constant so it stays in sync with MALA_SIZE
 document.getElementById('countDenom').textContent = `/ ${MALA_SIZE}`;
+
 buildRing();
 applyLayout();
 refreshDisplay();
 renderStats();
-renderLog();
 </script>
 </body>
 </html>
