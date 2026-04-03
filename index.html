@@ -1340,8 +1340,29 @@ async function addManualLog() {
     await showModal('कृपया सही संख्या लिखें।', { alertOnly: true });
     return;
   }
+
   const countToAdd = type === 'mala' ? value * MALA_SIZE : value;
-  applyJapaDelta(todayStr(), name, countToAdd);
+
+  if (name === activeName) {
+    // Merge with the live ring beads so the ring shows the correct remainder.
+    // e.g. beadCount=0, add 110 → combined=110 → store 108, ring=2
+    // e.g. beadCount=0, add 1193 → combined=1193 → store 1188 (11×108), ring=5
+    // e.g. beadCount=50, add 58  → combined=108  → store 108, ring=0  (mala complete!)
+    const combined   = beadCount + countToAdd;
+    const wholeCount = Math.floor(combined / MALA_SIZE) * MALA_SIZE; // completed malas as japa
+    const remainder  = combined % MALA_SIZE;                          // leftover beads for ring
+
+    if (wholeCount > 0) {
+      applyJapaDelta(todayStr(), name, wholeCount);
+      doFlash(); // celebrate completed mala(s)
+    }
+    beadCount = remainder;
+    saveBead();
+  } else {
+    // Different name — just store the full count; ring is always for activeName only.
+    applyJapaDelta(todayStr(), name, countToAdd);
+  }
+
   document.getElementById('manualValue').value = '';
   // Close log on both desktop and mobile
   document.getElementById('manualLog').classList.remove('open');
@@ -1350,8 +1371,13 @@ async function addManualLog() {
 }
 
 // FIX: works on both desktop and mobile — no screen-width guard
+// Also pre-selects the currently active name when opening
 function toggleManualLog() {
-  document.getElementById('manualLog').classList.toggle('open');
+  const log = document.getElementById('manualLog');
+  log.classList.toggle('open');
+  if (log.classList.contains('open')) {
+    document.getElementById('manualName').value = activeName;
+  }
 }
 
 // ════════════════════════════════════════════════════════════
